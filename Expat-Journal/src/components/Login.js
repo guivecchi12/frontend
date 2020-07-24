@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import mukuko from '../Img/traveler.jpg'
+import mukuko from '../Img/travel.jpg'
 
 const LoginContainer = styled.div`
   
@@ -12,18 +12,20 @@ const LoginContainer = styled.div`
     padding-bottom: 200px;
     background-image: url(${mukuko});
     background-size: cover;
-  
+
+
         h1 {
             font-weight: 400;
             font-size: 1.8rem;
             text-align: center;
+            padding-bottom: 10px;
         }
 
         form {
             display: flex;
             flex-direction: column;
-            width: 310px;
-            margin: 20px auto;
+            width: 300px;
+            margin: 40px auto;
             padding: 40px;
             border: 2px solid black;
             border-radius: 5px;
@@ -43,11 +45,41 @@ const LoginContainer = styled.div`
     
         input {
             width: 250px;
-            margin: 8px 0 0 10px;
+            margin: 8px 0 0 1px;
             border: 2px solid black;
             border-radius: 6px;
             padding: 10px 20px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+        }
+
+        input[type=text],
+        textarea {
+            -webkit-transition: all 0.30s ease-in-out;
+               -moz-transition: all 0.30s ease-in-out;
+                -ms-transition: all 0.30s ease-in-out;
+                 -o-transition: all 0.30s ease-in-out;
+            outline: none;
+        }
+         
+        input[type=text]:focus,
+        textarea:focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            border-color: rgba(81, 203, 238, 1);
+        }
+
+        input[type=password],
+        textarea {
+            -webkit-transition: all 0.30s ease-in-out;
+               -moz-transition: all 0.30s ease-in-out;
+                -ms-transition: all 0.30s ease-in-out;
+                 -o-transition: all 0.30s ease-in-out;
+            outline: none;
+        }
+         
+        input[type=password]:focus,
+        textarea:focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            border-color: rgba(81, 203, 238, 1);
         }
 
         .terms {
@@ -55,7 +87,7 @@ const LoginContainer = styled.div`
             text-align: center;
             padding: 10px 0 0 0;
             font-size: 1.3rem;
-            margin-left: -15px;
+          
         }
 
         .terms input {
@@ -75,7 +107,7 @@ const LoginContainer = styled.div`
             background-color: black;
             color: white;
             font-size: 1.2rem;
-            margin: 20px 0 0 80px;
+            margin: 30px 0 0 75px;
             padding: 8px 11px;
             cursor: pointer;
             border: 2px black solid;
@@ -93,7 +125,12 @@ const LoginContainer = styled.div`
             a {
               text-decoration:none;
               color: black;
+
+                &:hover {
+                    color: gray;
+                }
             }
+            
             text-align: center;
             padding: 30px 0 0 10px;
         }
@@ -127,9 +164,8 @@ const Login = ({users, setUsers}) => {
           .string()
           .required("Please enter a correct Password")
           .matches(
-            "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/",
-            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-          )
+            /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character")
           .min(6, "Passwords must be at least 6 characters long."),
         terms: Yup
           .boolean()
@@ -152,7 +188,12 @@ const Login = ({users, setUsers}) => {
         //I added axios data here so it does not fire a lot when its outside
         console.log("Form Submitted");
         // to reset form 
-        // setFormState({...errors});
+        setFormState({
+            name: "",
+            password: "",
+            terms: ""              
+        })
+        
         // console.log(formState.name)
         // console.log(formState.password);
         axios
@@ -161,14 +202,7 @@ const Login = ({users, setUsers}) => {
                 console.log("form submitted success", res)
                 //I set setUser here so it can retrieve the user data to the DOM
                 setUsers(res.data);
-                //this one is to add all the user 
-                // setUsers([...users, formState]);
                 console.log("success", users)
-                setFormState({
-                    name: "",
-                    password: "",
-                    terms:""               
-                })
             })
             .catch(err => {
                 console.log("This is the Error", err)
