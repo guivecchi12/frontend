@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import mukuko from '../Img/travel.jpg'
+import PasswordMask from 'react-password-mask'
 
 const LoginContainer = styled.div`
   
@@ -138,6 +139,17 @@ const LoginContainer = styled.div`
             text-align: center;
             padding: 30px 0 0 10px;
         }
+
+        .password-mask {
+            
+            a {
+            text-decoration: none;
+            color: black;
+            float: right;
+            margin-right: -47px;
+            font-size: 20px;
+            }
+        }
 `
 
 
@@ -196,7 +208,7 @@ const Login = (props) => {
         // console.log(formState.name)
         // console.log(formState.password);
         axios
-            .post("https://ptct-expat-journal-backend.herokuapp.com/auth/login", formState)
+            .post("https://reqres.in/api/users", formState)
             .then(res => {
                 console.log("form submitted success", res)
                 //I set setUser here so it can retrieve the user data to the DOM
@@ -263,13 +275,15 @@ const Login = (props) => {
             </label>
             <label htmlFor="password">
                 Password
-                <input
-                    type="text"
+                <PasswordMask className="password-mask"
+                //create the hide and show password from this link https://github.com/zakangelle/react-password-mask
+                    type="password"
                     name="password"
                     onChange={handleChange}
                     value={formState.password}
                     label="Password"
                     errors={errors}
+                    
                 />
                 {errors.password.length !== 0 && <p className="error">{errors.password}</p>}
             </label>
