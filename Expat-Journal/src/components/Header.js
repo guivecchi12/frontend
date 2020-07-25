@@ -32,7 +32,7 @@ const NavContainer = styled.div`
 `
 
 
-const NavBar = props  => {
+const Header = props  => {
 
     return (
         <NavContainer>
@@ -49,4 +49,4 @@ const NavBar = props  => {
 
 }
 
-export default NavBar;
+export default Header;

@@ -13,7 +13,7 @@ const FooterContainer = styled.div`
             color: black;
             font-size: 1.2rem;
             float: right;
-            padding: 0 80px 0 0;
+            padding: 0 40px 0 0;
         }
 `
 
