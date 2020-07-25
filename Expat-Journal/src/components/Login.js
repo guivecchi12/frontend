@@ -112,6 +112,10 @@ const LoginContainer = styled.div`
             cursor: pointer;
             border: 2px black solid;
             border-radius: 5px;
+            &:hover {
+                background-color: #778899;
+                color: #F0FFF0;
+            }
         }
     
         button:disabled {
@@ -137,18 +141,17 @@ const LoginContainer = styled.div`
 `
 
 
-
-
-const Login = ({users, setUsers}) => {
+const Login = (props) => {
 
     //this is the react state
     const defaultState = {
-        name: "",
+        username: "",
         password: "",
         terms: false 
     }
 
     const [formState, setFormState] = useState(defaultState);
+    const [post, setPost] = useState([]);
     const [errors, setErrors] = useState({ ...defaultState, terms: "" });
     const [buttonDisabled, setButtonDisabled] = useState(true);
     
@@ -156,17 +159,13 @@ const Login = ({users, setUsers}) => {
     //this is the formState schema
 
     let formSchema = Yup.object().shape({
-        name: Yup.string().required("Please provide name."),
-        email: Yup
-          .string()
-          .required("Please provide a email."),
+        username: Yup.string().required("Please provide username."),
         password: Yup
           .string()
           .required("Please enter a correct Password")
           .matches(
             /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character")
-          .min(6, "Passwords must be at least 6 characters long."),
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"),
         terms: Yup
           .boolean()
           .oneOf([true], "Please agree to the terms and conditions")
@@ -174,9 +173,9 @@ const Login = ({users, setUsers}) => {
 
       useEffect(() => {
         //    one way is 
-        //     formSchema.isValid(formState).then(valid => {
-        //       setButtonDisabled(!valid);
-        //     });
+            // formSchema.isValid(formState).then(valid => {
+            //   setButtonDisabled(!valid);
+            // });
             if (formState.terms) {
                 setButtonDisabled(!formState.terms);
             }
@@ -189,7 +188,7 @@ const Login = ({users, setUsers}) => {
         console.log("Form Submitted");
         // to reset form 
         setFormState({
-            name: "",
+            username: "",
             password: "",
             terms: ""              
         })
@@ -197,12 +196,12 @@ const Login = ({users, setUsers}) => {
         // console.log(formState.name)
         // console.log(formState.password);
         axios
-            .post("https://reqres.in/api/users", formState)
+            .post("https://ptct-expat-journal-backend.herokuapp.com/auth/login", formState)
             .then(res => {
                 console.log("form submitted success", res)
                 //I set setUser here so it can retrieve the user data to the DOM
-                setUsers(res.data);
-                console.log("success", users)
+                setPost(res.data);
+                console.log("success", post)
             })
             .catch(err => {
                 console.log("This is the Error", err)
@@ -250,22 +249,22 @@ const Login = ({users, setUsers}) => {
         <div className="form">
             <form onSubmit={formSubmit}>
                 <h1>LOG IN</h1>
-            <label htmlFor="name">
+            <label htmlFor="username">
                 Username
                 <input
                     type="text"
-                    name="name"
+                    name="username"
                     onChange={handleChange}
-                    value={formState.name}
-                    label="Name"
+                    value={formState.username}
+                    label="Username"
                     errors={errors}
                  />
-                 {errors.name.length !== 0 && <p className="error">{errors.name}</p>}
+                 {errors.username.length !== 0 && <p className="error">{errors.username}</p>}
             </label>
             <label htmlFor="password">
                 Password
                 <input
-                    type="password"
+                    type="text"
                     name="password"
                     onChange={handleChange}
                     value={formState.password}
