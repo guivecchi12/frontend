@@ -1,92 +1,147 @@
-import React, {useState} from 'react';
-import * as yup from 'yup'
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import * as Yup from "yup";
+import axios from "axios";
+import styled from "styled-components";
 
-const schema = yup.object().shape({
-    username: yup.string().required('Please enter your username.').min(3,'Not real name'),
-    email: yup.string().required('Please enter your email.').matches(/^[0-9]{10}$/),
-    password: yup.string().required('Please enter your password.').min(8,),
-    comfirmpassword: yup.string().required('Please recomfirm your password.').min(8,),
-}
-)
-    
-
+const signSchema = Yup.object().shape({
+  name: Yup.string().required("Please enter your username."),
+  email: Yup.string()
+    .required("Please enter your email.")
+    .matches(/^[0-9]{10}$/),
+  password: Yup.string()
+    .required("Please enter your password.")
+    .matches(
+      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+    )
+    .min(6),
+  comfirmpassword: Yup.string()
+    .required("Please recomfirm your password.")
+    .matches(
+      /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+    )
+    .min(6)
+});
 
 const defaultFormState = {
-    username: '',
-    email: '',
-    password: '',
-    comfirmpassword: '',
+  username: "",
+  email: "",
+  password: "",
+  comfirmpassword: ""
+};
+const defaultErrorState = {
+  username: "",
+  email: "",
+  password: "",
+  comfirmpassword: ""
+};
 
-}
-const defaultErrorState= {
-
-}
+let reg = {
+  username: "",
+  password: ""
+};
 
 const SignUp = props => {
-    const [formState,setFormState] = useState(defaultFormState);
-    const [errors, setErrors] = useState(defaultErrorState);
-    const[isDisable, setIsDisable] = useState(true);
+  const [formState, setFormState] = useState(defaultFormState);
+  const [errors, setErrors] = useState(defaultErrorState);
+  const [isDisable, setIsDisable] = useState(true);
 
-    const validate = e =>{
-        yup.reach(schema, e.target.username).validate(e.target.value,)
-        .then(valid => setErrors({...errors, [e.target.username]:''}))
-        .catch(err => setErrors({...errors,[e.target.username]:err.errors[0]}))
-    }
+  const val = e => {
+    e.persist();
+    Yup.reach(signSchema, e.target.name)
+      .validate(e.target.value)
+      .then(valid => setErrors({ ...errors, [e.target.name]: "" }))
+      .catch(err => {
+        setErrors({ ...errors, [e.target.name]: err.errors[0] });
+        console.log("this error", errors);
+      });
+    console.log(e.target.name);
+  };
 
+  // redo the handle
+  const handleChange = e => {
+    console.log(e.target.name);
+    setFormState({
+      ...formState,
+      [e.target.name]: e.target.value
+    });
 
+    val(e);
+  };
 
- // redo the handle 
-    const handleChange = e => {
-        if (e.target.type ==='textkbox'){
-            setFormState({
-                ...formState,
-                [e.target.username]: e.target.value
-            })
-        }
-        if (e.target.username === 'username' || e.target.email === 'email') {
-            validate(e);
-        }
-    }
-
-    const handleSumbmit = e =>{
-        e.preventDefault();
-        console.log(formState)
-    }
-    return (
-        <FormContainer>
-            <form onSubmit={handleSumbmit}>
-            <h1>Sign up Now!</h1>
-            <fieldset>
-            <label>
-                User Name <input type='text' name='username' onChange={handleChange} data-cy='username' value={formState.username} />
-                {errors.username > 0 && <p style={{color:'red'}}>{errors.username}</p> }
-            </label>
-            <label>
-                Password <input type='text' name='password' onChange={handleChange} data-cy='password' value={formState.password} />
-            </label>
-            <label>
-            Comfirm Password <input type='text' name='comfirm_password' onChange={handleChange} data-cy='comfirmpassword' value={formState.comfirmpassword} />
-            </label>
-            </fieldset>
-            <button type='cancel'> Cancel </button>
-            <button type='submit'> Submit </button>
+  const handleSumbmit = e => {
+    e.preventDefault();
+    reg = {
+      username: formState.name,
+      password: formState.password
+    };
+    console.log(reg, formState);
+    axios
+      .post("auth/login", reg)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    console.log(formState);
+  };
+  return (
+    <FormContainer>
+      <form onSubmit={handleSumbmit}>
+        <h1>Sign up Now!</h1>
+        <fieldset>
+          <label htmlFor="name">
+            User Name{" "}
+            <input
+              type="text"
+              name="name"
+              onChange={handleChange}
+              data-cy="name"
+              value={formState.name}
+              errors={errors}
+            />
+          </label>
+          <label>
+            Email{" "}
+            <input
+              type="text"
+              name="email"
+              onChange={handleChange}
+              data-cy="email"
+              value={formState.email}
+            />
+          </label>
+          <label>
+            Password{" "}
+            <input
+              type="password"
+              name="password"
+              onChange={handleChange}
+              data-cy="password"
+              value={formState.password}
+            />
+          </label>
+          <label>
+            Comfirm Password{" "}
+            <input
+              type="password"
+              name="comfirmpassword"
+              onChange={handleChange}
+              data-cy="comfirmpassword"
+              value={formState.comfirmpassword}
+            />
+          </label>
+        </fieldset>
+        <button type="cancel"> Cancel </button>
+        <button type="submit"> Submit </button>
         <div>
-            <p>Have an account?</p>
-            
+          <p>Have an account?</p>
         </div>
-            </form>
-        </FormContainer>
-    );
-}
+      </form>
+    </FormContainer>
+  );
+};
 
-const FormContainer = styled.div`
-margin: 5rem, auto;
-width: 600px;
-`
+const FormContainer = styled.div``;
 
-
-export default SignUp; 
-
+export default SignUp;
 
 // axios post request "off/login" end points
