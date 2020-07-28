@@ -6,6 +6,9 @@ import styled from 'styled-components';
 import mukuko from '../Img/travel.jpg'
 import PasswordMask from 'react-password-mask'
 import { axiosWithAuth } from '../utilities/axiosWithAuth';
+import { useHistory } from "react-router-dom";
+import HomePage from "./HomePage";
+
 
 const LoginContainer = styled.div`
   
@@ -167,6 +170,7 @@ const Login = (props) => {
     const [post, setPost] = useState([]);
     const [errors, setErrors] = useState({ ...defaultState, terms: "" });
     const [buttonDisabled, setButtonDisabled] = useState(true);
+    const { push } = useHistory();
     
 
     //this is the formState schema
@@ -210,13 +214,15 @@ const Login = (props) => {
         // console.log(formState.password);
     
         let user = {username: formState.username, password: formState.password};
-        axiosWithAuth
+
+        axiosWithAuth()
             .post("/auth/login", user)
             .then(res => {
                 console.log("form submitted success", res);
                 localStorage.setItem("token", res.data.payload);
                 //I set setUser here so it can retrieve the user data to the DOM
-                // setPost(res.data);
+                setPost(res.data);
+                push("/protected");
                 console.log("success", post)
             })
             .catch(err => {
@@ -262,46 +268,47 @@ const Login = (props) => {
     
     return (
         <LoginContainer>
-        <div className="form">
-            <form onSubmit={formSubmit}>
-                <h1>LOG IN</h1>
-            <label htmlFor="username">
-                Username
-                <input
-                    type="text"
-                    name="username"
-                    onChange={handleChange}
-                    value={formState.username}
-                    label="Username"
-                    errors={errors}
-                 />
-                 {errors.username.length !== 0 && <p className="error">{errors.username}</p>}
-            </label>
-            <label htmlFor="password">
-                Password
-                <PasswordMask className="password-mask"
-                //create the hide and show password from this link https://github.com/zakangelle/react-password-mask
-                    type="password"
-                    name="password"
-                    onChange={handleChange}
-                    value={formState.password}
-                    label="Password"
-                    errors={errors}
-                    
-                />
-                {errors.password.length !== 0 && <p className="error">{errors.password}</p>}
-            </label>
-            <label className="terms" htmlFor="terms">
-                <input name="terms" type="checkbox" onChange={handleChange}/>
-                Terms of Service
-            </label>
-            <button disabled={buttonDisabled}>SUBMIT</button>
-        <div className="register">
-            <p>Not registered yet?</p>
-            <Link to="/signup">Register Here</Link>
-        </div>
-        </form>
-        </div>
+            <div className="form">
+                <form onSubmit={formSubmit}>
+                    <h1>LOG IN</h1>
+                <label htmlFor="username">
+                    Username
+                    <input
+                        type="text"
+                        name="username"
+                        onChange={handleChange}
+                        value={formState.username}
+                        label="Username"
+                        errors={errors}
+                    />
+                    {errors.username.length !== 0 && <p className="error">{errors.username}</p>}
+                </label>
+                <label htmlFor="password">
+                    Password
+                    <PasswordMask className="password-mask"
+                    //create the hide and show password from this link https://github.com/zakangelle/react-password-mask
+                        type="password"
+                        name="password"
+                        onChange={handleChange}
+                        value={formState.password}
+                        label="Password"
+                        errors={errors}
+                        
+                    />
+                    {errors.password.length !== 0 && <p className="error">{errors.password}</p>}
+                </label>
+                <label className="terms" htmlFor="terms">
+                    <input name="terms" type="checkbox" onChange={handleChange}/>
+                    Terms of Service
+                </label>
+                <button disabled={buttonDisabled}>SUBMIT</button>
+            <div className="register">
+                <p>Not registered yet?</p>
+                <Link to="/signup">Register Here</Link>
+            </div>
+            </form>
+            </div>
+            <HomePage data={post}/>
         </LoginContainer>
     )
 }
