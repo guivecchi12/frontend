@@ -208,7 +208,7 @@ const Login = (props) => {
         // console.log(formState.name)
         // console.log(formState.password);
         axios
-            .post("https://reqres.in/api/users", formState)
+            .post("https://ptct-expat-journal-backend.herokuapp.com/auth/login", formState)
             .then(res => {
                 console.log("form submitted success", res)
                 //I set setUser here so it can retrieve the user data to the DOM

@@ -11,6 +11,10 @@ const List = styled.div`
     text-align: center;
     flex-wrap: wrap;
     padding: 20px 0 0 20px; 
+
+    h2 {
+        color: #F5F5F5;
+    }
     
         a {
             text-decoration: none;
@@ -30,7 +34,7 @@ const List = styled.div`
                   width: 80%;
                   height: 80%;
                   border-radius: 5%;
-                  border: 2px solid black;
+                  border: 2px solid #F5F5F5;
                   box-shadow: 20px 20px 20px 0 black; 
                  }
             }
@@ -57,38 +61,32 @@ const ListContainer =styled.div`
 const dummyData = [
     {
         id: 0,
-        name: "Jorge Jimenez",
-        story: "This is a nice place in colombia where I enjoy with my family",
+        label: "Pool time",
         img: "https://images.unsplash.com/photo-1500815845799-7748ca339f27?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=282&q=80"
     },
     {
         id: 1,
-        name: "Carlos Llano",
-        story: "I enjoy a lot this place because I could meditate a lot",
+        label: "Relaxing under the sun",
         img: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=431&q=80"
     },
     {
         id: 2,
-        name: "Jean Bloom",
-        story: "This is my second time coming here, and I love staying here for vacations ",
+        label: "Spending time with me",
         img: "https://images.unsplash.com/photo-1519160558534-579f5106e43f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
     },
     {
         id: 3,
-        name: "Patrick Smith",
-        story: "I cant complain about this placee, it was peaceful, and I enjoyed every moment here",
+        label: "Beautiful day today",
         img: "https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=414&q=80"
     },
     {
         id: 4,
-        name: "Gina Garcia",
-        story: "What Can I Say? The images explain everything",
+        label: "In the Ocean having a good time",
         img: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=375&q=80"
     },
     {
         id: 4,
-        name: "Peter Brown",
-        story: "What Can I Say? The images explain everything",
+        label: "Hiking with my husband",
         img: "https://images.unsplash.com/photo-1500049242364-5f500807cdd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=381&q=80"
     }
 ]
@@ -134,7 +132,7 @@ const UserList = () => {
   
   function UserDetails({ user }) {
 
-    const { name, img } = user;
+    const { label, img } = user;
 
     return (
 
@@ -142,7 +140,7 @@ const UserList = () => {
         <div className="user-img">
             <img src={img} />
         </div>
-        <h2>{name}</h2>
+        <h2>{label}</h2>
       </div>
     );
   }

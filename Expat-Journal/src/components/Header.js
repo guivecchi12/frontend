@@ -41,7 +41,7 @@ const Header = props  => {
             </div>
             <nav>
                 <Link to='/'>Home</Link>
-                <Link to='/users'>Members</Link>
+                <Link to='/users'>Albums</Link>
                 <Link to='/login'>Login</Link>
                 <Link to='/'>Sign Up</Link>
             </nav>
