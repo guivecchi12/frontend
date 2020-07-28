@@ -41,6 +41,7 @@ const Header = props  => {
             </div>
             <nav>
                 <Link to='/'>Home</Link>
+                <Link to='/images'>Albums</Link>
                 <Link to='/login'>Login</Link>
                 <Link to='/'>Sign Up</Link>
             </nav>
