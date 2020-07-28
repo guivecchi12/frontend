@@ -94,24 +94,24 @@ const dummyData = [
 
 
 
-const UserList = () => {
+const ImagesList = () => {
 
-    const [userList, setUserList] = useState(dummyData);
+    const [imageList, setImageList] = useState(dummyData);
 
 //   useEffect(() => {
-//     const getUsers = () => {
+//     const getImages = () => {
 //       axios
 //         .get('https://ptct-expat-journal-backend.herokuapp.com/users')
 //         .then(res => {
 //             console.log("The Response is:", res)
-//           setUserList(res.data);
+//           setImagesList(res.data);
 //         })
 //         .catch(err=> {
 //           console.error('Server Error', err);
 //         });
 //     }
 
-//     getUsers();
+//     getImages();
 //   }, []);
 
 
@@ -120,8 +120,8 @@ const UserList = () => {
         <ListContainer>
           <h1>Expat Members</h1>
             <List>
-                {userList.map(user => (
-                    <Link to={`/users/${user.id}`}>
+                {imageList.map(user => (
+                    <Link to={`/images/${user.id}`}>
                         <UserDetails key={user.id} user={user} />
                     </Link>
                 ))}
@@ -145,5 +145,5 @@ const UserList = () => {
     );
   }
 
-export default UserList;
+export default ImagesList;
 

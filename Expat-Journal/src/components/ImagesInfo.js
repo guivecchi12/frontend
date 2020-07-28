@@ -33,7 +33,7 @@ const dummyData = [
     }
 ]
 
-const UserInfo = (props) => {
+const ImagesInfo = (props) => {
   console.log("props", props)
   const [users, setUsers] = useState(dummyData);
   const params = useParams();
@@ -90,4 +90,4 @@ const user = users.find(story => `${story.id}` === params.id);
   );
 }
 
-export default UserInfo;
+export default ImagesInfo;

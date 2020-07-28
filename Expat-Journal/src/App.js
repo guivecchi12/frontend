@@ -6,8 +6,8 @@ import Footer from './components/Footer';
 import HomePage from './components/HomePage';
 import PrivateRoute from './utilities/PrivateRoute';
 import './App.css';
-import UserList from './components/UserList';
-import UserInfo from './components/UserInfo'
+import ImagesList from './components/ImagesList';
+import ImagesInfo from './components/ImagesInfo'
 
 function App() {
   
@@ -19,11 +19,11 @@ function App() {
         <Route exact path="/login">
           <Login />
         </ Route> 
-        <Route exact path="/users">
-          <UserList />
+        <Route exact path="/images">
+          <ImagesList />
         </ Route> 
-        <Route  path="/users/:id">
-          <UserInfo />
+        <Route  path="/images/:id">
+          <ImagesInfo />
         </ Route> 
         <Footer />
           {/* <Route exact path="/" component={Login} /> */}
