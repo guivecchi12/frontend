@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 
 const defaultFormState = {
-    full_name: '',
+    user_name: '',
     email: '',
     password: '',
     comfirm_password: '',
@@ -16,17 +16,9 @@ const SignUp = props => {
     const [formState,setFormState] = useState(defaultFormState);
     const [errors, setErrors] = useState(defaultErrorState);
     const[isDisable, setIsDisable] = useState(true);
-
+ // redo the handle 
     const handleChange = e => {
-        if (e.target.type ==='checkbox'){
-            setFormState({
-                ...formState,
-                toppings:{
-                    ...formState.toppings,
-                    [e.target.value]: e.target.checked
-                }
-            })
-        } else {
+        if (e.target.type ==='textkbox'){
             setFormState({
                 ...formState,
                 [e.target.name]: e.target.value
@@ -44,13 +36,8 @@ const SignUp = props => {
             <h3>Sign up Now!</h3>
             <label>
                 <fieldset>
-                Full Name <input type='text' name='full_name' onChange={handleChange} data-cy='full_name' value={formState.full_name} />
+                User Name <input type='text' name='user_name' onChange={handleChange} data-cy='full_name' value={formState.user_name} />
                 </fieldset>
-            </label>
-            <label>
-            <fieldset>
-               Email <input type='text' name='email' onChange={handleChange} data-cy='email' value={formState.email} />
-               </fieldset>
             </label>
             <label>
                 <fieldset>
@@ -69,3 +56,6 @@ const SignUp = props => {
     );
 }
 export default SignUp; 
+
+
+// axios post request "off/login" end points
