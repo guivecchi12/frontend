@@ -14,7 +14,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
             } else {
               // redirect to login
               alert("redirecting!");
-              return <Redirect to="/" />;
+              return <Redirect to="/signup" />;
             }
         }}
         /> 

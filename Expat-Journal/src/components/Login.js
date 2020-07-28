@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import mukuko from '../Img/travel.jpg'
 import PasswordMask from 'react-password-mask'
+import { axiosWithAuth } from '../utilities/axiosWithAuth';
 
 const LoginContainer = styled.div`
   
@@ -207,12 +208,15 @@ const Login = (props) => {
         
         // console.log(formState.name)
         // console.log(formState.password);
-        axios
-            .post("https://ptct-expat-journal-backend.herokuapp.com/auth/login", formState)
+    
+        let user = {username: formState.username, password: formState.password};
+        axiosWithAuth
+            .post("/auth/login", user)
             .then(res => {
-                console.log("form submitted success", res)
+                console.log("form submitted success", res);
+                localStorage.setItem("token", res.data.payload);
                 //I set setUser here so it can retrieve the user data to the DOM
-                setPost(res.data);
+                // setPost(res.data);
                 console.log("success", post)
             })
             .catch(err => {
