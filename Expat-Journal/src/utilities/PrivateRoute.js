@@ -9,7 +9,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
             console.log("you are in Route render");
             if (localStorage.getItem("token")) {
               // if the token is in localStorage, render the given component
-              console.log("found token");
+              // console.log("found token");
               return <Component {...props} />;
             } else {
               // redirect to login
