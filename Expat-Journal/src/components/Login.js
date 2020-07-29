@@ -3,126 +3,168 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import mukuko from "../Img/traveler.jpg";
+import mukuko from "../Img/travel.jpg";
+import PasswordMask from "react-password-mask";
 
 const LoginContainer = styled.div`
-  
-    padding: 40px 0 20px 0;
-    height: 600px;
-    padding-bottom: 200px;
-    background-image: url(${mukuko});
-    background-size: cover;
-  
-        h1 {
-            font-weight: 400;
-            font-size: 1.8rem;
-            text-align: center;
-        }
+  padding: 40px 0 20px 0;
+  height: 600px;
+  padding-bottom: 200px;
+  background-image: url(${mukuko});
+  background-size: cover;
 
-        form {
-            display: flex;
-            flex-direction: column;
-            width: 310px;
-            margin: 20px auto;
-            padding: 40px;
-            border: 2px solid black;
-            border-radius: 5px;
-            background-color: white;
-            height: auto;
-            
-    
-        label {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin: 0 0 10px 0;
-            padding: 0 0 20px 0;
-            font-size: 1.5rem;
-            color: black;
-        }
-    
-        input {
-            width: 250px;
-            margin: 8px 0 0 10px;
-            border: 2px solid black;
-            border-radius: 6px;
-            padding: 10px 20px;
-            font-size: 1.2rem;
-        }
+  h1 {
+    font-weight: 400;
+    font-size: 1.8rem;
+    text-align: center;
+    padding-bottom: 10px;
+  }
 
-        .terms {
-            display: inline-block;
-            text-align: center;
-            padding: 10px 0 0 0;
-            font-size: 1.3rem;
-            margin-left: -15px;
-        }
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 40px auto;
+    padding: 40px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    height: auto;
+  }
 
-        .terms input {
-            width: 20px;
-            display: inline-block;
-            margin-right: 5px;
-            
-        }
-    
-        .error {
-            font-size: 0.9rem;
-            color: red;
-        }
-    
-        button {
-            width: 150px;
-            background-color: black;
-            color: white;
-            font-size: 1.2rem;
-            margin: 20px 0 0 80px;
-            padding: 8px 11px;
-            cursor: pointer;
-            border: 2px black solid;
-            border-radius: 5px;
-        }
-    
-        button:disabled {
-            background-color: white;
-            border: 1px solid silver;
-            color: gray;
-            cursor: not-allowed;
-        }
-    
-        .register {
-            a {
-              text-decoration:none;
-              color: black;
-            }
-            text-align: center;
-            padding: 30px 0 0 10px;
-        }
+  label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0 0 10px 0;
+    padding: 0 0 20px 0;
+    font-size: 1.5rem;
+    color: black;
+  }
+
+  input {
+    width: 250px;
+    margin: 8px 0 0 1px;
+    border: 2px solid black;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 1.3rem;
+  }
+
+  input[type="text"],
+  textarea {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    outline: none;
+  }
+
+  input[type="text"]:focus,
+  textarea:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border-color: rgba(81, 203, 238, 1);
+  }
+
+  input[type="password"],
+  textarea {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    outline: none;
+  }
+
+  input[type="password"]:focus,
+  textarea:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border-color: rgba(81, 203, 238, 1);
+  }
+
+  .terms {
+    display: inline-block;
+    text-align: center;
+    padding: 10px 0 0 0;
+    font-size: 1.3rem;
+  }
+
+  .terms input {
+    width: 20px;
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .error {
+    font-size: 0.9rem;
+    color: red;
+  }
+
+  button {
+    width: 150px;
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+    margin: 30px 0 0 75px;
+    padding: 8px 11px;
+    cursor: pointer;
+    border: 2px black solid;
+    border-radius: 5px;
+    &:hover {
+      background-color: #778899;
+      color: #f0fff0;
+    }
+  }
+
+  button:disabled {
+    background-color: white;
+    border: 1px solid silver;
+    color: gray;
+    cursor: not-allowed;
+  }
+
+  .register {
+    a {
+      text-decoration: none;
+      color: black;
+
+      &:hover {
+        color: gray;
+      }
+    }
+
+    text-align: center;
+    padding: 30px 0 0 10px;
+  }
+
+  .password-mask {
+    a {
+      text-decoration: none;
+      color: black;
+      float: right;
+      margin-right: -47px;
+      font-size: 20px;
+    }
+  }
 `;
 
-const Login = ({ users, setUsers }) => {
+const Login = (props) => {
   //this is the react state
   const defaultState = {
-    name: "",
+    username: "",
     password: "",
     terms: false,
   };
 
   const [formState, setFormState] = useState(defaultState);
+  const [post, setPost] = useState([]);
   const [errors, setErrors] = useState({ ...defaultState, terms: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   //this is the formState schema
 
   let formSchema = Yup.object().shape({
-    name: Yup.string().required("Please provide name."),
-    email: Yup.string().required("Please provide a email."),
-    password: Yup.string()
-      .required("Please enter a correct Password")
-      .matches(
-        "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/",
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-      )
-      .min(6, "Passwords must be at least 6 characters long."),
+    username: Yup.string().required("Please provide username."),
+    password: Yup.string().required("Please enter a correct Password"),
     terms: Yup.boolean().oneOf(
       [true],
       "Please agree to the terms and conditions"
@@ -131,9 +173,9 @@ const Login = ({ users, setUsers }) => {
 
   useEffect(() => {
     //    one way is
-    //     formSchema.isValid(formState).then(valid => {
-    //       setButtonDisabled(!valid);
-    //     });
+    // formSchema.isValid(formState).then(valid => {
+    //   setButtonDisabled(!valid);
+    // });
     if (formState.terms) {
       setButtonDisabled(!formState.terms);
     }
@@ -145,23 +187,24 @@ const Login = ({ users, setUsers }) => {
     //I added axios data here so it does not fire a lot when its outside
     console.log("Form Submitted");
     // to reset form
-    // setFormState({...errors});
+    setFormState({
+      username: "",
+      password: "",
+      terms: "",
+    });
+
     // console.log(formState.name)
     // console.log(formState.password);
     axios
-      .post("https://reqres.in/api/users", formState)
+      .post(
+        "https://ptct-expat-journal-backend.herokuapp.com/auth/login",
+        formState
+      )
       .then((res) => {
         console.log("form submitted success", res);
         //I set setUser here so it can retrieve the user data to the DOM
-        setUsers(res.data);
-        //this one is to add all the user
-        // setUsers([...users, formState]);
-        console.log("success", users);
-        setFormState({
-          name: "",
-          password: "",
-          terms: "",
-        });
+        setPost(res.data);
+        console.log("success", post);
       })
       .catch((err) => {
         console.log("This is the Error", err);
@@ -205,21 +248,25 @@ const Login = ({ users, setUsers }) => {
       <div className="form">
         <form onSubmit={formSubmit}>
           <h1>LOG IN</h1>
-          <label htmlFor="name">
+          <label htmlFor="username">
             Username
             <input
               type="text"
-              name="name"
+              name="username"
               onChange={handleChange}
-              value={formState.name}
-              label="Name"
+              value={formState.username}
+              label="Username"
               errors={errors}
             />
-            {errors.name.length !== 0 && <p className="error">{errors.name}</p>}
+            {errors.username.length !== 0 && (
+              <p className="error">{errors.username}</p>
+            )}
           </label>
           <label htmlFor="password">
             Password
-            <input
+            <PasswordMask
+              className="password-mask"
+              //create the hide and show password from this link https://github.com/zakangelle/react-password-mask
               type="password"
               name="password"
               onChange={handleChange}
