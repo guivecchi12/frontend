@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import axiosWithAuth from "../utilities/axiosWithAuth";
+import { useHistory } from "react-router-dom";
 import mukuko from "../Img/travel.jpg";
 import styled from "styled-components";
 
@@ -52,10 +53,7 @@ const SignUpContainer = styled.div`
 
   input[type="text"],
   textarea {
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     outline: none;
   }
 
@@ -67,10 +65,7 @@ const SignUpContainer = styled.div`
 
   input[type="password"],
   textarea {
-    -webkit-transition: all 0.3s ease-in-out;
-    -moz-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     outline: none;
   }
 
@@ -190,6 +185,8 @@ const SignUp = (props) => {
   const [formState, setFormState] = useState(defaultFormState);
   const [errors, setErrors] = useState(defaultErrorState);
   const [isDisable, setIsDisable] = useState(true);
+  const history = useHistory();
+
   const val = (e) => {
     e.persist(); //<--- this guy
     Yup.reach(signSchema, e.target.name)
@@ -219,7 +216,10 @@ const SignUp = (props) => {
     console.log(reg, formState);
     axiosWithAuth()
       .post("auth/register", reg)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        history.push("/login");
+      })
       .catch((err) => console.log(err));
     console.log(formState);
   };
