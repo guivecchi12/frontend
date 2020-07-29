@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axiosWithAuth from "../utilities/axiosWithAuth";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import mukuko from "../Img/travel.jpg";
 import PasswordMask from "react-password-mask";
-import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import { useHistory } from "react-router-dom";
-import HomePage from "./HomePage";
 
 const LoginContainer = styled.div`
   padding: 40px 0 20px 0;
@@ -15,14 +13,12 @@ const LoginContainer = styled.div`
   padding-bottom: 200px;
   background-image: url(${mukuko});
   background-size: cover;
-
   h1 {
     font-weight: 400;
     font-size: 1.8rem;
     text-align: center;
     padding-bottom: 10px;
   }
-
   form {
     display: flex;
     flex-direction: column;
@@ -33,7 +29,6 @@ const LoginContainer = styled.div`
     border-radius: 5px;
     background-color: white;
     height: auto;
-
     label {
       display: flex;
       flex-direction: column;
@@ -43,7 +38,6 @@ const LoginContainer = styled.div`
       font-size: 1.5rem;
       color: black;
     }
-
     input {
       width: 250px;
       margin: 8px 0 0 1px;
@@ -52,50 +46,41 @@ const LoginContainer = styled.div`
       padding: 10px 20px;
       font-size: 1.3rem;
     }
-
     input[type="text"],
     textarea {
       transition: all 0.3s ease-in-out;
       outline: none;
     }
-
     input[type="text"]:focus,
     textarea:focus {
       box-shadow: 0 0 5px rgba(81, 203, 238, 1);
       border-color: rgba(81, 203, 238, 1);
     }
-
     input[type="password"],
     textarea {
       transition: all 0.3s ease-in-out;
-
       outline: none;
     }
-
     input[type="password"]:focus,
     textarea:focus {
       box-shadow: 0 0 5px rgba(81, 203, 238, 1);
       border-color: rgba(81, 203, 238, 1);
     }
-
     .terms {
       display: inline-block;
       text-align: center;
       padding: 10px 0 0 0;
       font-size: 1.3rem;
     }
-
     .terms input {
       width: 20px;
       display: inline-block;
       margin-right: 5px;
     }
-
     .error {
       font-size: 0.9rem;
       color: red;
     }
-
     button {
       width: 150px;
       background-color: black;
@@ -111,28 +96,23 @@ const LoginContainer = styled.div`
         color: #f0fff0;
       }
     }
-
     button:disabled {
       background-color: white;
       border: 1px solid silver;
       color: gray;
       cursor: not-allowed;
     }
-
     .register {
       a {
         text-decoration: none;
         color: black;
-
         &:hover {
           color: gray;
         }
       }
-
       text-align: center;
       padding: 30px 0 0 10px;
     }
-
     .password-mask {
       a {
         text-decoration: none;
@@ -145,7 +125,7 @@ const LoginContainer = styled.div`
   }
 `;
 
-const Login = (props) => {
+const Login = ({ setUser }) => {
   //this is the react state
   const defaultState = {
     username: "",
@@ -154,13 +134,11 @@ const Login = (props) => {
   };
 
   const [formState, setFormState] = useState(defaultState);
-  const [post, setPost] = useState([]);
   const [errors, setErrors] = useState({ ...defaultState, terms: "" });
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const { push } = useHistory();
 
   //this is the formState schema
-
   let formSchema = Yup.object().shape({
     username: Yup.string().required("Please provide username."),
     password: Yup.string()
@@ -201,16 +179,15 @@ const Login = (props) => {
     // console.log(formState.password);
 
     let user = { username: formState.username, password: formState.password };
-
     axiosWithAuth()
       .post("/auth/login", user)
       .then((res) => {
-        console.log("form submitted success", res);
-        localStorage.setItem("token", res.data.token);
+        const data = res.data;
+        // console.log("form submitted success", data);
+        localStorage.setItem("token", data.token);
         //I set setUser here so it can retrieve the user data to the DOM
-        setPost(res.data);
+        setUser(data);
         push("/protected");
-        console.log("success", post);
       })
       .catch((err) => {
         console.log("This is the Error", err);
@@ -295,9 +272,7 @@ const Login = (props) => {
           </div>
         </form>
       </div>
-      <HomePage data={post} />
     </LoginContainer>
   );
 };
-
 export default Login;

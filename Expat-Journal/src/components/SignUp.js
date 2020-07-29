@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import axiosWithAuth from "../utilities/axiosWithAuth";
@@ -184,7 +184,6 @@ let reg = {
 const SignUp = (props) => {
   const [formState, setFormState] = useState(defaultFormState);
   const [errors, setErrors] = useState(defaultErrorState);
-  const [isDisable, setIsDisable] = useState(true);
   const history = useHistory();
 
   const val = (e) => {
@@ -277,6 +276,6 @@ const SignUp = (props) => {
     </SignUpContainer>
   );
 };
-const FormContainer = styled.div``;
+
 export default SignUp;
 // axios post request "off/login" end points
