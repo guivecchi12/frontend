@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
-import axios from "axios";
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import mukuko from '../Img/travel.jpg'
@@ -8,6 +7,8 @@ import PasswordMask from 'react-password-mask'
 import { axiosWithAuth } from '../utilities/axiosWithAuth';
 import { useHistory } from "react-router-dom";
 import HomePage from "./HomePage";
+import addImage from './addImage';
+import addStory from './addStory';
 
 
 const LoginContainer = styled.div`
@@ -308,7 +309,9 @@ const Login = (props) => {
             </div>
             </form>
             </div>
-            <HomePage props={post}/>
+            <HomePage props={post} />
+            <addImage props={post} />
+            <addStory props={post} />
         </LoginContainer>
     )
 }

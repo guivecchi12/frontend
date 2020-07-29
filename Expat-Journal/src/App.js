@@ -9,6 +9,7 @@ import PrivateRoute from "./utilities/PrivateRoute";
 import "./App.css";
 import ImagesList from "./components/ImagesList";
 import ImagesInfo from "./components/ImagesInfo";
+import addImage from './components/addImage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         {/* <Route exact path="/" component={Login} /> */}
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/protected" component={HomePage} />
+        <Route exact path ="/addImages" component={addImage} />
       </div>
     </Router>
   );
