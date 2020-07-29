@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import * as Yup from "yup";
 import axios from "axios";
 import styled from "styled-components";
+import mukuko from '../Img/travel.jpg'
 
 const signSchema = Yup.object().shape({
   name: Yup.string().required("Please enter your username."),
@@ -48,7 +50,7 @@ const SignUp = props => {
   const [isDisable, setIsDisable] = useState(true);
 
   const val = e => {
-    e.persist();
+    e.persist();  //<--- this guy 
     Yup.reach(signSchema, e.target.name)
       .validate(e.target.value)
       .then(valid => setErrors({ ...errors, [e.target.name]: "" }))
@@ -84,12 +86,12 @@ const SignUp = props => {
     console.log(formState);
   };
   return (
-    <FormContainer>
+    <SignUpContainer>
       <form onSubmit={handleSumbmit}>
         <h1>Sign up Now!</h1>
-        <fieldset>
+        
           <label htmlFor="name">
-            User Name{" "}
+            Name{" "}
             <input
               type="text"
               name="name"
@@ -129,18 +131,147 @@ const SignUp = props => {
               value={formState.comfirmpassword}
             />
           </label>
-        </fieldset>
-        <button type="cancel"> Cancel </button>
+        
         <button type="submit"> Submit </button>
+        <button type="cancel"> Cancel </button>
         <div>
-          <p>Have an account?</p>
+          <Link to="/login">Have an account?</Link>
         </div>
       </form>
-    </FormContainer>
+    </SignUpContainer>
   );
 };
 
-const FormContainer = styled.div``;
+
+const SignUpContainer = styled.div`
+  
+    padding: 40px 0 20px 0;
+    height: auto;
+    background-image: url(${mukuko});
+    background-size: cover;
+
+
+        h1 {
+            font-weight: 400;
+            font-size: 1.8rem;
+            text-align: center;
+            padding-bottom: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin: 40px auto;
+            padding: 40px;
+            
+            border-radius: 5px;
+            background-color: white;
+            height: auto;
+            
+    
+        label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0 0 10px 0;
+            padding: 0 0 20px 0;
+            font-size: 1.5rem;
+            color: black;
+        }
+    
+        input {
+            width: 250px;
+            margin: 8px 0 0 1px;
+            border: 2px solid black;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 1.3rem;
+        }
+
+        input[type=text],
+        textarea {
+            -webkit-transition: all 0.30s ease-in-out;
+               -moz-transition: all 0.30s ease-in-out;
+                -ms-transition: all 0.30s ease-in-out;
+                 -o-transition: all 0.30s ease-in-out;
+            outline: none;
+        }
+         
+        input[type=text]:focus,
+        textarea:focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            border-color: rgba(81, 203, 238, 1);
+        }
+
+        input[type=password],
+        textarea {
+            -webkit-transition: all 0.30s ease-in-out;
+               -moz-transition: all 0.30s ease-in-out;
+                -ms-transition: all 0.30s ease-in-out;
+                 -o-transition: all 0.30s ease-in-out;
+            outline: none;
+        }
+         
+        input[type=password]:focus,
+        textarea:focus {
+            box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+            border-color: rgba(81, 203, 238, 1);
+        }
+
+        .terms {
+            display: inline-block;
+            text-align: center;
+            padding: 10px 0 0 0;
+            font-size: 1.3rem;
+          
+        }
+
+        .terms input {
+            width: 20px;
+            display: inline-block;
+            margin-right: 5px;
+            
+        }
+    
+        .error {
+            font-size: 0.9rem;
+            color: red;
+        }
+    
+        button {
+            width: 150px;
+            background-color: black;
+            color: white;
+            font-size: 1.2rem;
+            margin: 30px 0 0 75px;
+            padding: 8px 11px;
+            cursor: pointer;
+            border: 2px black solid;
+            border-radius: 5px;
+        }
+    
+        button:disabled {
+            background-color: white;
+            border: 1px solid silver;
+            color: gray;
+            cursor: not-allowed;
+        }
+    
+        .register {
+            a {
+              text-decoration:none;
+              color: black;
+
+                &:hover {
+                    color: gray;
+                }
+            }
+            
+            text-align: center;
+            padding: 30px 0 0 10px;
+        }
+`
 
 export default SignUp;
 
