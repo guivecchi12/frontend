@@ -158,7 +158,7 @@ const LoginContainer = styled.div`
 `
 
 
-const Login = (props) => {
+const Login = ({setUser}) => {
 
     //this is the react state
     const defaultState = {
@@ -168,7 +168,6 @@ const Login = (props) => {
     }
 
     const [formState, setFormState] = useState(defaultState);
-    const [post, setPost] = useState([]);
     const [errors, setErrors] = useState({ ...defaultState, terms: "" });
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const { push } = useHistory();
@@ -219,12 +218,12 @@ const Login = (props) => {
         axiosWithAuth()
             .post("/auth/login", user)
             .then(res => {
-                console.log("form submitted success", res);
-                localStorage.setItem("token", res.data.payload);
+                const data = res.data;
+                // console.log("form submitted success", data);
+                localStorage.setItem("token", data.payload);
                 //I set setUser here so it can retrieve the user data to the DOM
-                setPost(res.data);
-                push("/protected");
-                console.log("success", post)
+                setUser(data);
+                push("/protected");    
             })
             .catch(err => {
                 console.log("This is the Error", err)
@@ -309,9 +308,7 @@ const Login = (props) => {
             </div>
             </form>
             </div>
-            <HomePage props={post} />
-            <addImage props={post} />
-            <addStory props={post} />
+
         </LoginContainer>
     )
 }

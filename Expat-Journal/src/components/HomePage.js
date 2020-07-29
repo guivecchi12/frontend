@@ -3,7 +3,7 @@ import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import { Link } from 'react-router-dom';
 
 
-const HomePage = ({props}) => {
+const HomePage = () => {
     return(
         <>
             <h1>Created</h1>
