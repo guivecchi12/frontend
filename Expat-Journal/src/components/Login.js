@@ -308,7 +308,7 @@ const Login = (props) => {
             </div>
             </form>
             </div>
-            <HomePage data={post}/>
+            <HomePage props={post}/>
         </LoginContainer>
     )
 }
