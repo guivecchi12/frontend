@@ -6,9 +6,6 @@ import mukuko from '../Img/travel.jpg'
 import PasswordMask from 'react-password-mask'
 import { axiosWithAuth } from '../utilities/axiosWithAuth';
 import { useHistory } from "react-router-dom";
-import HomePage from "./HomePage";
-import addImage from './addImage';
-import addStory from './addStory';
 
 
 const LoginContainer = styled.div`
@@ -158,7 +155,7 @@ const LoginContainer = styled.div`
 `
 
 
-const Login = ({setUser}) => {
+const Login = ({ setUser }) => {
 
     //this is the react state
     const defaultState = {
@@ -220,7 +217,7 @@ const Login = ({setUser}) => {
             .then(res => {
                 const data = res.data;
                 // console.log("form submitted success", data);
-                localStorage.setItem("token", data.payload);
+                localStorage.setItem("token", data.token);
                 //I set setUser here so it can retrieve the user data to the DOM
                 setUser(data);
                 push("/protected");    
