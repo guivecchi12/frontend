@@ -1,6 +1,5 @@
 import axiosWithAuth from "../utilities/axiosWithAuth";
 
-
 // const ImgData = [
 //     {
 //     id:0,
@@ -31,27 +30,22 @@ import axiosWithAuth from "../utilities/axiosWithAuth";
 //      Comment:"Its time for our team to become World Champions!"
 //     },
 //]
-const ImgsData = props =>{
-    const [Imgs, setImgs] =useState([]);
-    useEffect(() => {
-    axiosWithAuth.get(https://ptct-expat-journal-backend.herokuapp.com/images)
-        .then(fun (response) {
+const ImgsData = props => {
+  const [Imgs, setImgs] = useState([]);
+
+  useEffect(() => {
+    axiosWithAuth()
+      .get("/images")
+      .then(function(response) {
         setImgs(response.data);
         console.log(response);
-    })
+      });
+  }, []);
 
-},[])
-useEffect(() =>{
+  useEffect(() => {
     console.log(Imgs);
-}, [Imgs]);
+  }, [Imgs]);
 
-    }
-
-    const ImgCard = props => {
-
-    }
-
-    //add an button =(https://ptct-expat-journal-backend.herokuapp.com/users/addImages)
-    return(
-        {Imgs.map((data.i))}
-    )
+  //add an button =(https://ptct-expat-journal-backend.herokuapp.com/users/addImages)
+  return Imgs.map((data, i) => <ImgCard data={data} key={i} />);
+};
