@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Header from "./components/Header";
@@ -11,6 +11,7 @@ import ImagesList from "./components/ImagesList";
 import ImagesInfo from "./components/ImagesInfo";
 import { UserContext } from "./context/UserContext";
 import userStories from "./components/userStories";
+import AddImage from "./components/addImage";
 
 function App() {
   const [user, setUser] = useState([]);
@@ -24,7 +25,7 @@ function App() {
       <UserContext.Provider value={{ user, addUser }}>
         <Header />
         <Route exact path="/login">
-          <Login setUser={setUser} />
+          <Login />
         </Route>
         <Route exact path="/images">
           <ImagesList />
@@ -37,6 +38,9 @@ function App() {
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/protected" component={HomePage} />
         <PrivateRoute exact path="/users/stories" component={userStories} />
+        <Route exact path="/addImages">
+          <AddImage />
+        </Route>
       </UserContext.Provider>
     </div>
   );

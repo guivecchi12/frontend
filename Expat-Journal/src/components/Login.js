@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import mukuko from "../Img/travel.jpg";
 import PasswordMask from "react-password-mask";
+import axiosWithAuth from "../utilities/axiosWithAuth";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
@@ -14,12 +15,14 @@ const LoginContainer = styled.div`
   padding-bottom: 200px;
   background-image: url(${mukuko});
   background-size: cover;
+
   h1 {
     font-weight: 400;
     font-size: 1.8rem;
     text-align: center;
     padding-bottom: 10px;
   }
+
   form {
     display: flex;
     flex-direction: column;
@@ -30,6 +33,7 @@ const LoginContainer = styled.div`
     border-radius: 5px;
     background-color: white;
     height: auto;
+
     label {
       display: flex;
       flex-direction: column;
@@ -39,6 +43,7 @@ const LoginContainer = styled.div`
       font-size: 1.5rem;
       color: black;
     }
+
     input {
       width: 250px;
       margin: 8px 0 0 1px;
@@ -47,41 +52,49 @@ const LoginContainer = styled.div`
       padding: 10px 20px;
       font-size: 1.3rem;
     }
+
     input[type="text"],
     textarea {
       transition: all 0.3s ease-in-out;
       outline: none;
     }
+
     input[type="text"]:focus,
     textarea:focus {
       box-shadow: 0 0 5px rgba(81, 203, 238, 1);
       border-color: rgba(81, 203, 238, 1);
     }
+
     input[type="password"],
     textarea {
       transition: all 0.3s ease-in-out;
       outline: none;
     }
+
     input[type="password"]:focus,
     textarea:focus {
       box-shadow: 0 0 5px rgba(81, 203, 238, 1);
       border-color: rgba(81, 203, 238, 1);
     }
+
     .terms {
       display: inline-block;
       text-align: center;
       padding: 10px 0 0 0;
       font-size: 1.3rem;
     }
+
     .terms input {
       width: 20px;
       display: inline-block;
       margin-right: 5px;
     }
+
     .error {
       font-size: 0.9rem;
       color: red;
     }
+
     button {
       width: 150px;
       background-color: black;
@@ -97,23 +110,28 @@ const LoginContainer = styled.div`
         color: #f0fff0;
       }
     }
+
     button:disabled {
       background-color: white;
       border: 1px solid silver;
       color: gray;
       cursor: not-allowed;
     }
+
     .register {
       a {
         text-decoration: none;
         color: black;
+
         &:hover {
           color: gray;
         }
       }
+
       text-align: center;
       padding: 30px 0 0 10px;
     }
+
     .password-mask {
       a {
         text-decoration: none;
@@ -128,6 +146,7 @@ const LoginContainer = styled.div`
 
 const Login = () => {
   const { addUser } = useContext(UserContext);
+
   //this is the react state
   const defaultState = {
     username: "",
@@ -141,9 +160,15 @@ const Login = () => {
   const { push } = useHistory();
 
   //this is the formState schema
+
   let formSchema = Yup.object().shape({
     username: Yup.string().required("Please provide username."),
-    password: Yup.string().required("Please enter a correct Password"),
+    password: Yup.string()
+      .required("Please enter a correct Password")
+      .matches(
+        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      ),
     terms: Yup.boolean().oneOf(
       [true],
       "Please agree to the terms and conditions"
@@ -176,6 +201,7 @@ const Login = () => {
     // console.log(formState.password);
 
     let user = { username: formState.username, password: formState.password };
+
     axiosWithAuth()
       .post("/auth/login", user)
       .then((res) => {
@@ -272,4 +298,5 @@ const Login = () => {
     </LoginContainer>
   );
 };
+
 export default Login;
