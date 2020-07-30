@@ -9,8 +9,7 @@ import PrivateRoute from "./utilities/PrivateRoute";
 import "./App.css";
 import ImagesList from "./components/ImagesList";
 import ImagesInfo from "./components/ImagesInfo";
-import AddImage from './components/addImage';
-import { UserContext } from './context/UserContext';
+import { UserContext } from "./context/UserContext";
 
 function App() {
   const [user, setUser] = useState([]);
@@ -20,7 +19,7 @@ function App() {
       <div className="App">
         <Header />
         <Route exact path="/login">
-          <Login setUser = { setUser }/>
+          <Login setUser={setUser} />
         </Route>
         <Route exact path="/images">
           <ImagesList />
@@ -32,9 +31,6 @@ function App() {
         {/* <Route exact path="/" component={Login} /> */}
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/protected" component={HomePage} />
-        <Route exact path ="/addImages">
-          <AddImage user = { user }/>
-        </Route>
       </div>
     </Router>
   );
