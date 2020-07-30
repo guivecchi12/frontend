@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
+import { UserContext } from "../context/UserContext";
 
 const initialStory = {
   story_title: "",
   story_body: "",
 };
 
-const AddStory = ({ stories, updateStories, user }) => {
+const AddStory = ({ stories, updateStories }) => {
   const [editing, setEditing] = useState(false);
   const [story, setStory] = useState(initialStory);
+  const { user } = useContext(UserContext);
 
   const editStory = (story) => {
     setEditing(true);
@@ -20,12 +22,14 @@ const AddStory = ({ stories, updateStories, user }) => {
     setEditing(false);
   };
 
-  const saveStory = () => {
+  const updateStory = () => {
     axiosWithAuth()
-      .post(`/users/${user.id}/stories`, story)
+      .put(`/users/${user.id}/stories/${stories.story_id}`, story)
       .then((res) => {
-        const stories = res.data;
-        updateStories(stories);
+        const updatedStories = stories.map((story) =>
+          story.story_id === res.data.id ? res.data : story
+        );
+        updateStories(updatedStories);
         reset();
       })
       .catch((err) => {
@@ -33,14 +37,13 @@ const AddStory = ({ stories, updateStories, user }) => {
       });
   };
 
-  const updateStory = () => {
+  const saveStory = () => {
     axiosWithAuth()
-      .put(`/users/${user.id}/stories/${story.story_id}`, story)
+      .post(`/users/${user.id}/stories`, story)
       .then((res) => {
-        const updatedStories = stories.map((story) =>
-          story.story_id === res.data.id ? res.data : story
-        );
-        updateStories(updatedStories);
+        const stories = res.data;
+        console.log(stories);
+        updateStories(stories);
         reset();
       })
       .catch((err) => {
@@ -74,6 +77,7 @@ const AddStory = ({ stories, updateStories, user }) => {
       saveStory();
     }
   };
+  console.log(stories);
 
   return (
     <div className="story-wrap">
@@ -82,8 +86,10 @@ const AddStory = ({ stories, updateStories, user }) => {
         <label>
           Title:
           <input
-            onChange={(e) => setStory({ ...story, story: e.target.value })}
-            value={story.story}
+            onChange={(e) =>
+              setStory({ ...story, story_title: e.target.value })
+            }
+            value={story.story_title}
           />
         </label>
         <label>
@@ -92,10 +98,10 @@ const AddStory = ({ stories, updateStories, user }) => {
             onChange={(e) =>
               setStory({
                 ...story,
-                story: e.target.value,
+                story_body: e.target.value,
               })
             }
-            value={story.story}
+            value={story.story_body}
           />
         </label>
         <div className="button-row">
@@ -105,23 +111,27 @@ const AddStory = ({ stories, updateStories, user }) => {
       </form>
       <p>stories</p>
       <ol>
-        {stories.map((story) => (
-          <li key={story.id} onClick={() => editStory(story)}>
-            <span>
-              <span
-                className="delete"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteStory(story);
-                }}
-              >
-                x
-              </span>{" "}
-              {story.story_title}
-            </span>
-            <span>{story.story_body}</span>
-          </li>
-        ))}
+        {stories
+          .slice(0)
+          .reverse()
+          .map((story) => (
+            <li key={story.story_id} onClick={() => editStory(story)}>
+              <span>
+                <span
+                  className="delete"
+                  onclick={(e) => {
+                    e.stopPropagation();
+                    deleteStory(story);
+                  }}
+                >
+                  x
+                </span>
+                {""}
+                <p>Title: {story.story_title}</p>
+                <p>Story: {story.story_body}</p>
+              </span>
+            </li>
+          ))}
       </ol>
       <div className="spacer" />
     </div>

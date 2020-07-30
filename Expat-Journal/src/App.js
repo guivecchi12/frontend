@@ -37,7 +37,7 @@ function App() {
         {/* <Route exact path="/" component={Login} /> */}
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/protected" component={HomePage} />
-        <PrivateRoute exact path="/users/stories" component={userStories} />
+        <PrivateRoute exact path="/addStory" component={userStories} />
         <Route exact path="/addImages">
           <AddImage />
         </Route>

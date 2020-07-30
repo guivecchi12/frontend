@@ -16,7 +16,7 @@
     "yup": "^0.29.1"
   },
   "scripts": {
-    "start": "react-scripts start, node index.js", 
+    "start": "react-scripts start",
     "build": "CI= react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

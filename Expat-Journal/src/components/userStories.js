@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import AddStory from "../components/addStory";
+import { UserContext } from "../context/UserContext";
 
-const StoriesList = ({ user }) => {
+const StoriesList = () => {
   const [stories, setStories] = useState([]);
   const [refresh, setRefresh] = useState(true);
 
-  const getStories = () => {
+  const { user } = useContext(UserContext);
+
+  useEffect(() => {
     axiosWithAuth()
       .get(
-        `https://ptct-expat-journal-backend.herokuapp.com/users/${user.user_id}/stories`
+        `https://ptct-expat-journal-backend.herokuapp.com/users/${user.id}/stories`
       )
       .then((res) => {
         console.log(res);
@@ -17,29 +20,13 @@ const StoriesList = ({ user }) => {
       })
       .catch((err) => {
         console.log(err);
-      })
-      .finally(() => {
-        setRefresh(false);
       });
-  };
-
-  useEffect(() => {
-    getStories();
-  }, [refresh]);
+  }, []);
 
   return (
     <div>
       <div className="storiesList">
-        <AddStory addstory={AddStory} />
-        {stories
-          .slice(0)
-          .reverse()
-          .map((story) => (
-            <div className="story" key={story.story_id}>
-              <p>Title: {story.story_title}</p>
-              <p>Story: {story.story_body}</p>
-            </div>
-          ))}
+        <AddStory stories={stories} updateStories={setStories} />
       </div>
     </div>
   );
