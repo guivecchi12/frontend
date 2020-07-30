@@ -1,36 +1,37 @@
 import React, { useState, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import { UserContext } from "../context/UserContext";
-
 const initialStory = {
   story_title: "",
   story_body: "",
 };
-
-const AddStory = ({ stories, updateStories }) => {
+const AddStory = ({ stories, updateStories, getStories }) => {
   const [editing, setEditing] = useState(false);
   const [story, setStory] = useState(initialStory);
   const { user } = useContext(UserContext);
-
+  const array = [];
   const editStory = (story) => {
     setEditing(true);
     setStory(story);
+    getStories();
   };
-
   const reset = () => {
     setStory(initialStory);
     setEditing(false);
+    getStories();
   };
-
-  const updateStory = () => {
+  const updateStory = (storys) => {
+    console.log("your stories:", stories);
     axiosWithAuth()
-      .put(`/users/${user.id}/stories/${stories.story_id}`, story)
+      .put(`/users/${user.id}/stories/${story.id}`, story)
       .then((res) => {
-        const updatedStories = stories.map((story) =>
-          story.story_id === res.data.id ? res.data : story
-        );
-        updateStories(updatedStories);
-        reset();
+        console.log("PUT REQUEST: ", story);
+        // const updatedStories = stories.map((story) =>
+        //   story.story_id === res.data.id ? res.data : story
+        // );
+        // updateStories(updatedStories);
+        getStories();
+        setEditing(false);
       })
       .catch((err) => {
         console.log("Error:", err);
@@ -41,44 +42,46 @@ const AddStory = ({ stories, updateStories }) => {
     axiosWithAuth()
       .post(`/users/${user.id}/stories`, story)
       .then((res) => {
-        const stories = res.data;
+        console.log("POST REQUEST: ", res.data);
+        getStories();
+        // const stories = res.data;
         console.log(stories);
-        updateStories(stories);
+        // updateStories(oldStories => [...oldStories, stories]);
         reset();
       })
       .catch((err) => {
         console.log("Error:", err);
       });
   };
-
   const deleteStory = (story) => {
+    console.log("STORY in Delete: ", story);
     axiosWithAuth()
-      .delete(`/users/${user.id}/stories/${story.story_id}`)
+      .delete(`/users/${user.id}/stories/${story.id}`)
       .then((res) => {
-        const updatedStories = stories.filter(
-          (story) => story.story.id !== res.data
-        );
-        updateStories(updatedStories);
-        setStory(initialStory);
+        console.log("DELETE RESponse: ", res);
+        getStories();
+        // const updatedStories = stories.filter(
+        //   (story) => story.story_id !== res.data
+        // );
+        // updateStories(updatedStories);
+        // setStory(initialStory);
       })
       .catch((err) => {
         console.log("Error: ", err);
       });
   };
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!(story.story_title && story.story_body)) {
       return;
     }
-    if (story.story_id) {
+    if (story.id) {
       updateStory();
     } else {
       saveStory();
     }
   };
-  console.log(stories);
-
+  console.log("Your stories: ", stories);
   return (
     <div className="story-wrap">
       <form onSubmit={handleFormSubmit}>
@@ -112,14 +115,14 @@ const AddStory = ({ stories, updateStories }) => {
       <p>stories</p>
       <ol>
         {stories
-          .slice(0)
+          .splice(0)
           .reverse()
           .map((story) => (
             <li key={story.story_id} onClick={() => editStory(story)}>
               <span>
                 <span
                   className="delete"
-                  onclick={(e) => {
+                  onClick={(e) => {
                     e.stopPropagation();
                     deleteStory(story);
                   }}
@@ -137,5 +140,4 @@ const AddStory = ({ stories, updateStories }) => {
     </div>
   );
 };
-
 export default AddStory;
