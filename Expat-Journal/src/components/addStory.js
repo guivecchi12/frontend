@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import axiosWithAuth from "../utilities/axiosWithAuth";
 
 const initialStory = {
   story_title: "",
   story_body: "",
 };
 
-const StoryList = ({ stories, updateStories }) => {
+const AddStory = ({ stories, updateStories, user }) => {
   const [editing, setEditing] = useState(false);
   const [story, setStory] = useState(initialStory);
 
@@ -22,7 +22,7 @@ const StoryList = ({ stories, updateStories }) => {
 
   const saveStory = () => {
     axiosWithAuth()
-      .post(`/users/${user_id}/stories`, story)
+      .post(`/users/${user.id}/stories`, story)
       .then((res) => {
         const stories = res.data;
         updateStories(stories);
@@ -35,7 +35,7 @@ const StoryList = ({ stories, updateStories }) => {
 
   const updateStory = () => {
     axiosWithAuth()
-      .put(`/users/${user_id}/stories/${story_id}`, story)
+      .put(`/users/${user.id}/stories/${story.story_id}`, story)
       .then((res) => {
         const updatedStories = stories.map((story) =>
           story.story_id === res.data.id ? res.data : story
@@ -50,10 +50,10 @@ const StoryList = ({ stories, updateStories }) => {
 
   const deleteStory = (story) => {
     axiosWithAuth()
-      .delete(`/users/${user_id}/stories/${story_id}`)
+      .delete(`/users/${user.id}/stories/${story.story_id}`)
       .then((res) => {
         const updatedStories = stories.filter(
-          (story) => story.story_id !== res.data
+          (story) => story.story.id !== res.data
         );
         updateStories(updatedStories);
         setStory(initialStory);
@@ -91,7 +91,7 @@ const StoryList = ({ stories, updateStories }) => {
           <input
             onChange={(e) =>
               setStory({
-                ...Story,
+                ...story,
                 story: e.target.value,
               })
             }
@@ -104,9 +104,9 @@ const StoryList = ({ stories, updateStories }) => {
         </div>
       </form>
       <p>stories</p>
-      <ul>
+      <ol>
         {stories.map((story) => (
-          <li key={story.story} onClick={() => editStory(story)}>
+          <li key={story.id} onClick={() => editStory(story)}>
             <span>
               <span
                 className="delete"
@@ -122,10 +122,10 @@ const StoryList = ({ stories, updateStories }) => {
             <span>{story.story_body}</span>
           </li>
         ))}
-      </ul>
+      </ol>
       <div className="spacer" />
     </div>
   );
 };
 
-export default StoryList;
+export default AddStory;

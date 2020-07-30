@@ -10,13 +10,18 @@ import "./App.css";
 import ImagesList from "./components/ImagesList";
 import ImagesInfo from "./components/ImagesInfo";
 import { UserContext } from "./context/UserContext";
+import userStories from "./components/userStories";
 
 function App() {
   const [user, setUser] = useState([]);
 
+  const addUser = (userData) => {
+    setUser(userData);
+  };
+
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <UserContext.Provider value={{ user, addUser }}>
         <Header />
         <Route exact path="/login">
           <Login setUser={setUser} />
@@ -31,8 +36,9 @@ function App() {
         {/* <Route exact path="/" component={Login} /> */}
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/protected" component={HomePage} />
-      </div>
-    </Router>
+        <PrivateRoute exact path="/users/stories" component={userStories} />
+      </UserContext.Provider>
+    </div>
   );
 }
 

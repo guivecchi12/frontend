@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import mukuko from "../Img/travel.jpg";
 import PasswordMask from "react-password-mask";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const LoginContainer = styled.div`
   padding: 40px 0 20px 0;
@@ -125,7 +126,8 @@ const LoginContainer = styled.div`
   }
 `;
 
-const Login = ({ setUser }) => {
+const Login = () => {
+  const { addUser } = useContext(UserContext);
   //this is the react state
   const defaultState = {
     username: "",
@@ -141,12 +143,7 @@ const Login = ({ setUser }) => {
   //this is the formState schema
   let formSchema = Yup.object().shape({
     username: Yup.string().required("Please provide username."),
-    password: Yup.string()
-      .required("Please enter a correct Password")
-      .matches(
-        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-      ),
+    password: Yup.string().required("Please enter a correct Password"),
     terms: Yup.boolean().oneOf(
       [true],
       "Please agree to the terms and conditions"
@@ -186,7 +183,7 @@ const Login = ({ setUser }) => {
         // console.log("form submitted success", data);
         localStorage.setItem("token", data.token);
         //I set setUser here so it can retrieve the user data to the DOM
-        setUser(data);
+        addUser(data);
         push("/protected");
       })
       .catch((err) => {
