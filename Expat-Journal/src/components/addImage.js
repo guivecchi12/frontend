@@ -94,15 +94,7 @@ const AddImage = () => {
                 </label>
                 <button>add</button>
             </form>
-            {imgs.map(pic=>(
-                <div key = {pic.id} onClick ={() => editingImg(pic)}>
-                    <img src={pic.img_url}/>
-                    <span className = "delete" onClick = {e => {
-                         e.stopPropagation(); 
-                         deleteImg(pic) }}
-                    > x </span>
-                </div>
-            ))}
+
             {edit && (
                 <form onSubmit = {saveEdit}>
                     <legend>edit image URL</legend>
@@ -116,7 +108,18 @@ const AddImage = () => {
                     <button type="submit">save</button>
                 </form>
             )}
-            <button onClick = {checkStates}>Check States</button>
+
+            {imgs.slice(0).reverse().map(pic=>(
+                <div key = {pic.id} onClick ={() => editingImg(pic)}>
+                    <img src={pic.img_url}/>
+                    <span className = "delete" onClick = {e => {
+                         e.stopPropagation(); 
+                         deleteImg(pic) }}
+                    > x </span>
+                </div>
+            ))}
+            
+            {/* <button onClick = {checkStates}>Check States</button> */}
 
         </>
     )
