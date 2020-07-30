@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { axiosWithAuth } from "../utilities/axiosWithAuth";
+import React, { useEffect, useState, useContext } from "react";
+import axiosWithAuth from "../utilities/axiosWithAuth";
+import { UserContext } from "../context/UserContext";
 
 const initialState = {
-    id: 0,
-    img_url: "",
-    user_id: 0
+    img_url: ""
 }
 
-const AddImage = ({ user }) => {
+const AddImage = () => {
 
-    // console.log(user);
+    const { user } = useContext( UserContext );
 
+    // console.log("Your user: ", user.id);
     const [imgs, setImgs] = useState([]);
     const [addingImg, setAddingImg] = useState(initialState);
     const [edit, setEdit] = useState(false);
     const [editImg, setEditImg] = useState(initialState);
 
+
     const getImages = () =>{
         axiosWithAuth()
-            .get(`/users/${user.id}/images`)
+            .get(`/users/${ user.id }/images`)
             .then(res => {
-                // console.log("addImages GET: ", res.data);
+                console.log("addImages GET: ", res.data);
                 setImgs(res.data);
-                setAddingImg({...addingImg, img_url: "", user_id: user.id});
+                setAddingImg(initialState);
             })
             .catch(err => console.log("addImages GET error", err))
     }
 
     useEffect(()=>{
         getImages();
-        // setAddingImg({...addingImg, img_url: ""});
     },[]);
 
 
@@ -37,12 +37,12 @@ const AddImage = ({ user }) => {
         e.preventDefault();
         
         axiosWithAuth()
-        .post(`/users/${addingImg.user_id}/images/`, addingImg)
-        .then(res=> {
-            console.log( "Response from POST adding image: ", res);
-            getImages();
-        })
-         .catch (err => console.log(err));
+            .post(`/users/${user.id}/images/`, addingImg)
+            .then(res=> {
+                console.log( "Response from POST adding image: ", res);
+                getImages();
+            })
+            .catch (err => console.log(err));
     }
 
     const deleteImg = img => {
@@ -88,7 +88,7 @@ const AddImage = ({ user }) => {
                     <input
                         type="text"  
                         name = "url"
-                        onChange = {e => {e.persist(); setAddingImg({...addingImg, img_url: e.target.value, id: imgs.length + 1 })}}
+                        onChange = {e => {e.persist(); setAddingImg({...addingImg, img_url: e.target.value})}}
                         value = { addingImg.img_url }
                     />  
                 </label>
@@ -116,7 +116,7 @@ const AddImage = ({ user }) => {
                     <button type="submit">save</button>
                 </form>
             )}
-            {/* <button onClick = {checkStates}>Check States</button> */}
+            <button onClick = {checkStates}>Check States</button>
 
         </>
     )

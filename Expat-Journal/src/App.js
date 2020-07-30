@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Header from "./components/Header";
@@ -9,17 +9,22 @@ import PrivateRoute from "./utilities/PrivateRoute";
 import "./App.css";
 import ImagesList from "./components/ImagesList";
 import ImagesInfo from "./components/ImagesInfo";
-import { UserContext } from "./context/UserContext";
+import AddImage from './components/addImage';
+import { UserContext } from './context/UserContext';
 
 function App() {
   const [user, setUser] = useState([]);
 
+  const addUser = userData => {
+    setUser(userData);
+  }
+
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <UserContext.Provider value = {{ user, addUser }}>
         <Header />
         <Route exact path="/login">
-          <Login setUser={setUser} />
+          <Login />
         </Route>
         <Route exact path="/images">
           <ImagesList />
@@ -31,8 +36,12 @@ function App() {
         {/* <Route exact path="/" component={Login} /> */}
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/protected" component={HomePage} />
-      </div>
-    </Router>
+        <Route exact path ="/addImages">
+          <AddImage />
+        </Route>
+      </UserContext.Provider>
+    </div>
+    
   );
 }
 
