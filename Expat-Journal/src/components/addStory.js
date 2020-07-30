@@ -1,6 +1,95 @@
 import React, { useState, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import { UserContext } from "../context/UserContext";
+import mukuko from "../Img/travel.jpg";
+import styled from "styled-components";
+
+const StoryContainer = styled.div`
+  padding: 40px 0 20px 0;
+  height: 600px;
+  padding-bottom: 200px;
+  background-image: url(${mukuko});
+  background-size: cover;
+
+  h1 {
+    font-weight: 400;
+    font-size: 1.8rem;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 40px auto;
+    padding: 40px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    height: auto;
+    align-items: center;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 0 10px 0;
+      padding: 0 0 20px 0;
+      font-size: 1.5rem;
+      color: black;
+    }
+
+    input {
+      width: 250px;
+      margin: 8px 0 0 1px;
+      border: 2px solid black;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 1.3rem;
+    }
+
+    input[type="text"],
+    textarea {
+      transition: all 0.3s ease-in-out;
+      outline: none;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+      box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+      border-color: rgba(81, 203, 238, 1);
+    }
+  }
+
+  button {
+    width: 150px;
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+    margin: 30px 0 0 75px;
+    padding: 8px 11px;
+    cursor: pointer;
+    border: 2px black solid;
+    border-radius: 5px;
+    &:hover {
+      background-color: #778899;
+      color: #f0fff0;
+    }
+  }
+
+  button:disabled {
+    background-color: white;
+    border: 1px solid silver;
+    color: gray;
+    cursor: not-allowed;
+  }
+
+  legend {
+    font-size: 2.5rem;
+  }
+`;
+
 const initialStory = {
   story_title: "",
   story_body: "",
@@ -10,28 +99,27 @@ const AddStory = ({ stories, updateStories, getStories }) => {
   const [story, setStory] = useState(initialStory);
   const { user } = useContext(UserContext);
   const array = [];
+
   const editStory = (story) => {
     setEditing(true);
     setStory(story);
     getStories();
   };
+
   const reset = () => {
     setStory(initialStory);
     setEditing(false);
     getStories();
   };
-  const updateStory = (storys) => {
+
+  const updateStory = () => {
     console.log("your stories:", stories);
     axiosWithAuth()
       .put(`/users/${user.id}/stories/${story.id}`, story)
       .then((res) => {
         console.log("PUT REQUEST: ", story);
-        // const updatedStories = stories.map((story) =>
-        //   story.story_id === res.data.id ? res.data : story
-        // );
-        // updateStories(updatedStories);
         getStories();
-        setEditing(false);
+        // setEditing(true);
       })
       .catch((err) => {
         console.log("Error:", err);
@@ -42,34 +130,34 @@ const AddStory = ({ stories, updateStories, getStories }) => {
     axiosWithAuth()
       .post(`/users/${user.id}/stories`, story)
       .then((res) => {
-        console.log("POST REQUEST: ", res.data);
         getStories();
-        // const stories = res.data;
-        console.log(stories);
-        // updateStories(oldStories => [...oldStories, stories]);
         reset();
       })
       .catch((err) => {
         console.log("Error:", err);
       });
   };
+
   const deleteStory = (story) => {
-    console.log("STORY in Delete: ", story);
     axiosWithAuth()
       .delete(`/users/${user.id}/stories/${story.id}`)
       .then((res) => {
-        console.log("DELETE RESponse: ", res);
         getStories();
-        // const updatedStories = stories.filter(
-        //   (story) => story.story_id !== res.data
-        // );
-        // updateStories(updatedStories);
-        // setStory(initialStory);
       })
       .catch((err) => {
         console.log("Error: ", err);
       });
   };
+
+  const changeHandler = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    setStory({
+      ...story,
+      [name]: value,
+    });
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (!(story.story_title && story.story_body)) {
@@ -82,28 +170,28 @@ const AddStory = ({ stories, updateStories, getStories }) => {
     }
   };
   console.log("Your stories: ", stories);
+
   return (
-    <div className="story-wrap">
+    <StoryContainer>
       <form onSubmit={handleFormSubmit}>
-        <legend>{`${editing ? "edit" : "add"} story`}</legend>
+        <legend>{`${editing ? "Change A" : "Contribute A"} Story`}</legend>
         <label>
           Title:
           <input
-            onChange={(e) =>
-              setStory({ ...story, story_title: e.target.value })
-            }
+            type="text"
+            name="story_title"
+            onChange={changeHandler}
+            placeholder="Title"
             value={story.story_title}
           />
         </label>
         <label>
           Story:
           <input
-            onChange={(e) =>
-              setStory({
-                ...story,
-                story_body: e.target.value,
-              })
-            }
+            type="text"
+            name="story_body"
+            onChange={changeHandler}
+            placeholder="Story"
             value={story.story_body}
           />
         </label>
@@ -112,23 +200,23 @@ const AddStory = ({ stories, updateStories, getStories }) => {
           <button onClick={reset}>cancel</button>
         </div>
       </form>
-      <p>stories</p>
+      <p>Stories</p>
       <ol>
         {stories
           .splice(0)
           .reverse()
           .map((story) => (
-            <li key={story.story_id} onClick={() => editStory(story)}>
+            <li key={story.story_id}>
               <span>
-                <span
-                  className="delete"
+                <button onClick={() => editStory(story)}>Edit</button>
+                <button
                   onClick={(e) => {
                     e.stopPropagation();
                     deleteStory(story);
                   }}
                 >
-                  x
-                </span>
+                  Remove
+                </button>
                 {""}
                 <p>Title: {story.story_title}</p>
                 <p>Story: {story.story_body}</p>
@@ -137,7 +225,7 @@ const AddStory = ({ stories, updateStories, getStories }) => {
           ))}
       </ol>
       <div className="spacer" />
-    </div>
+    </StoryContainer>
   );
 };
 export default AddStory;

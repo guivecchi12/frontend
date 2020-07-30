@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import AddStory from "../components/addStory";
 import { UserContext } from "../context/UserContext";
+
 const StoriesList = () => {
   const [stories, setStories] = useState([]);
-  const [refresh, setRefresh] = useState(true);
   const { user } = useContext(UserContext);
+
   const getStories = () => {
     axiosWithAuth()
       .get(
@@ -22,6 +23,7 @@ const StoriesList = () => {
   useEffect(() => {
     getStories();
   }, []);
+
   return (
     <div>
       <div className="storiesList">
@@ -35,29 +37,3 @@ const StoriesList = () => {
   );
 };
 export default StoriesList;
-// import React, { useState, useEffect } from "react";
-// import { axiosWithAuth } from "../utils/axiosWithAuth";
-// import StoryList from "../components/addStory";
-// const userStories = ({ user }) => {
-//   const [story, setStory] = useState([]);
-//   const getStories = (props) => {
-//     axiosWithAuth()
-//       .get(`/users/${user.id}/stories`)
-//       .then((res) => {
-//         console.log(res);
-//         setStory(res.data);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-//   useEffect(() => {
-//     getStories();
-//   }, []);
-//   return (
-//     <>
-//       <StoryList stories={story} updateStories={setStory} />
-//     </>
-//   );
-// };
-// export default userStories;
