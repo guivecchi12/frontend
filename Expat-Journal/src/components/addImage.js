@@ -116,7 +116,7 @@ const AddImage = ({ user }) => {
                     <button type="submit">save</button>
                 </form>
             )}
-            <button onClick = {checkStates}>Check States</button>
+            {/* <button onClick = {checkStates}>Check States</button> */}
 
         </>
     )
