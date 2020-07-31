@@ -155,7 +155,7 @@ const LoginContainer = styled.div`
 `;
 
 const Login = () => {
-  const { addUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   //this is the react state
   const defaultState = {
