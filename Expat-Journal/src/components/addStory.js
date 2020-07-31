@@ -83,6 +83,55 @@ const StoryContainer = styled.div`
   }
 `;
 
+const StoryContainer2 = styled.div`
+  h1 {
+    font-weight: 400;
+    font-size: 1.8rem;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 40px auto;
+    padding: 40px;
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+    height: auto;
+    align-items: center;
+
+    p {
+      font-size: 2.5rem;
+    }
+  }
+
+  button {
+    width: 150px;
+    background-color: black;
+    color: white;
+    font-size: 1.2rem;
+    margin: 30px 0 0 75px;
+    padding: 8px 11px;
+    cursor: pointer;
+    border: 2px black solid;
+    border-radius: 5px;
+    &:hover {
+      background-color: #778899;
+      color: #f0fff0;
+    }
+  }
+
+  button:disabled {
+    background-color: white;
+    border: 1px solid silver;
+    color: gray;
+    cursor: not-allowed;
+  }
+`;
+
 const initialStory = {
   story_title: "",
   story_body: "",
@@ -195,26 +244,25 @@ const AddStory = ({ stories, getStories }) => {
         </div>
       </form>
       <p>Stories</p>
-      <ol>
+      <StoryContainer2>
         {[...stories].reverse().map((story) => (
           <li key={story.story_id}>
             <span>
-              <button onClick={() => editStory(story)}>Edit</button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteStory(story);
-                }}
-              >
-                Remove
-              </button>
-              {""}
               <p>Title: {story.story_title}</p>
               <p>Story: {story.story_body}</p>
             </span>
+            <button onClick={() => editStory(story)}>Edit</button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteStory(story);
+              }}
+            >
+              Remove
+            </button>
           </li>
         ))}
-      </ol>
+      </StoryContainer2>
       <div className="spacer" />
     </StoryContainer>
   );
