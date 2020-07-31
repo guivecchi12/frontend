@@ -9,6 +9,7 @@ import PrivateRoute from "./utilities/PrivateRoute";
 import "./App.css";
 import ImagesList from "./components/ImagesList";
 import ImagesInfo from "./components/ImagesInfo";
+import ImgGit from "./components/ImgGit";
 import { UserContext } from "./context/UserContext";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         {/* <Route exact path="/" component={Login} /> */}
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/protected" component={HomePage} />
+        <PrivateRoute exact path="/images" component={ImgGit} />
       </div>
     </Router>
   );

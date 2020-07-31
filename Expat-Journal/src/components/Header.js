@@ -39,7 +39,8 @@ const Header = (props) => {
       </div>
       <nav>
         <Link to="/">Home</Link>
-        <Link to="/images">Albums</Link>
+        <Link to="/images">Images</Link>
+        <Link to="/myimages">Albums</Link>
         <Link to="/login">Login</Link>
         <Link to="/signup">Sign Up</Link>
       </nav>
