@@ -112,11 +112,11 @@ const AddImage = () => {
                 )}
             </div>
             <div className="userAlbum">
-                {imgs.slice(0).reverse().map(pic=>(
+                {[...imgs].reverse().map(pic=>(
                     <div key = {pic.id} onClick ={() => editingImg(pic)} className = "userImgs" 
                         style={{
                             backgroundImage:`url(${pic.img_url})`,
-                        
+                            backgroundSize:"auto 100%"
                         }}
                     >
                         {/* <img src={pic.img_url}/> */}
