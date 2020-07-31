@@ -9,6 +9,7 @@ import PrivateRoute from './utilities/PrivateRoute';
 import './App.css';
 import ImagesList from './components/ImagesList';
 import ImagesInfo from './components/ImagesInfo';
+import AddImage from './components/addImage';
 import ImgGit from './components/ImgGit';
 import { UserContext } from './context/UserContext';
 
