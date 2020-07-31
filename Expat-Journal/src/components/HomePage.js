@@ -1,21 +1,25 @@
 import React from "react";
-import { axiosWithAuth } from "../utilities/axiosWithAuth";
 import { Link } from "react-router-dom";
+import Header from "./Header";
+import ImgGit from "./ImgGit";
 import StoriesList from "./StoriesList";
 import styled from "styled-components";
 
-const Stories = styled.div`
-margin-left: 30px;
-`
+const ImgStor = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const HomePage = () => {
   return (
-    <>
-      <h1>Created</h1>
-      <Stories>
+    <div className="container">
+      <Header />
+      <h1>Our Journal</h1>
+      <ImgStor>
         <StoriesList />
-      </Stories>
-    </>
+        <ImgGit />
+      </ImgStor>
+    </div>
   );
 };
 
