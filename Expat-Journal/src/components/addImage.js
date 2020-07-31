@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { axiosWithAuth } from "../utilities/axiosWithAuth";
+import React, { useEffect, useState, useContext } from "react";
+import axiosWithAuth from "../utilities/axiosWithAuth";
+import { UserContext } from "../context/UserContext";
 
 const initialState = {
-    id: 0,
-    img_url: "",
-    user_id: 0
+    img_url: ""
 }
 
-const AddImage = ({ user }) => {
+const AddImage = () => {
+  
+    const { user } = useContext( UserContext );
 
-    // console.log(user);
-
+    // console.log("Your user: ", user.id);
     const [imgs, setImgs] = useState([]);
     const [addingImg, setAddingImg] = useState(initialState);
     const [edit, setEdit] = useState(false);
@@ -18,11 +18,11 @@ const AddImage = ({ user }) => {
 
     const getImages = () =>{
         axiosWithAuth()
-            .get(`/users/${user.id}/images`)
+            .get(`/users/${ user.id }/images`)
             .then(res => {
                 // console.log("addImages GET: ", res.data);
                 setImgs(res.data);
-                setAddingImg({...addingImg, img_url: "", user_id: user.id});
+                setAddingImg(initialState);
             })
             .catch(err => console.log("addImages GET error", err))
     }
@@ -37,12 +37,12 @@ const AddImage = ({ user }) => {
         e.preventDefault();
         
         axiosWithAuth()
-        .post(`/users/${addingImg.user_id}/images/`, addingImg)
-        .then(res=> {
-            console.log( "Response from POST adding image: ", res);
-            getImages();
-        })
-         .catch (err => console.log(err));
+            .post(`/users/${user.id}/images/`, addingImg)
+            .then(res=> {
+                console.log( "Response from POST adding image: ", res);
+                getImages();
+            })
+            .catch (err => console.log(err));
     }
 
     const deleteImg = img => {
@@ -88,7 +88,7 @@ const AddImage = ({ user }) => {
                     <input
                         type="text"  
                         name = "url"
-                        onChange = {e => {e.persist(); setAddingImg({...addingImg, img_url: e.target.value, id: imgs.length + 1 })}}
+                        onChange = {e => {e.persist(); setAddingImg({...addingImg, img_url: e.target.value})}}
                         value = { addingImg.img_url }
                     />  
                 </label>
@@ -117,6 +117,32 @@ const AddImage = ({ user }) => {
                 </form>
             )}
             <button onClick = {checkStates}>Check States</button>
+
+            {edit && (
+                <form onSubmit = {saveEdit}>
+                    <legend>edit image URL</legend>
+                    <label>
+                        URL: 
+                        <input
+                            onChange = {e => {e.persist(); setEditImg({...editImg, img_url: e.target.value}); console.log(editImg) }}
+                            value = { editImg.img_url }
+                        />   
+                    </label>
+                    <button type="submit">save</button>
+                </form>
+            )}
+
+            {imgs.slice(0).reverse().map(pic=>(
+                <div key = {pic.id} onClick ={() => editingImg(pic)}>
+                    <img src={pic.img_url}/>
+                    <span className = "delete" onClick = {e => {
+                         e.stopPropagation(); 
+                         deleteImg(pic) }}
+                    > x </span>
+                </div>
+            ))}
+            
+            {/* <button onClick = {checkStates}>Check States</button> */}
 
         </>
     )
