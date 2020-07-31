@@ -198,7 +198,7 @@ const Login = () => {
       }, [formState]);
 
     //this is use for the onsubmit function
-      const formSubmit = e => {
+    const formSubmit = e => {
         e.preventDefault();
         //I added axios data here so it does not fire a lot when its outside
         console.log("Form Submitted");
@@ -218,8 +218,9 @@ const Login = () => {
             .post("/auth/login", user)
             .then(res => {
                 const data = res.data;
-                // console.log("form submitted success", data);
+                console.log("form submitted success", data);
                 localStorage.setItem("token", data.token);
+                localStorage.setItem("userID", data.id);
                 //I set setUser here so it can retrieve the user data to the DOM
                 addUser(data);
                 push("/protected");    
