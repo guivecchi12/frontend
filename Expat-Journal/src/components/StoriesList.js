@@ -76,7 +76,7 @@ const StoriesList = () => {
       </div>
       </Link>
       <ol>
-        {storiesList.map((story) => (
+        {[...storiesList].reverse().map((story) => (
           <StoriesGetCard
             key={story.id}
             story_title={story.story_title}
