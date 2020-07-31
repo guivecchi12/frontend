@@ -18,7 +18,6 @@ function App() {
     <div className="App">
       <UserContext.Provider value={{ user, setUser }}>
         <Header />
-        <Footer />
         <Route
           exact
           path="/"
@@ -32,6 +31,7 @@ function App() {
         <PrivateRoute exact path="/protected" component={HomePage} />
         <PrivateRoute exact path="/addStory" component={userStories} />
         <PrivateRoute exact path="/addImages" component={AddImage} />
+        <Footer />
       </UserContext.Provider>
     </div>
   );
