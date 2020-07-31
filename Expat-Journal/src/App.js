@@ -22,7 +22,8 @@ function App() {
         <Route exact path="/login">
           <Login setUser={setUser} />
         </Route>
-        <Route exact path="/myimages">
+        <Route exact path="/" component={HomePage} />
+        <Route exact path="/images">
           <ImagesList />
         </Route>
         <Route path="/images/:id">
