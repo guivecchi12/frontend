@@ -10,7 +10,8 @@ import "./App.css";
 import ImagesList from "./components/ImagesList";
 import ImagesInfo from "./components/ImagesInfo";
 import AddImage from './components/addImage';
-import { UserContext } from './context/UserContext';
+import ImgGit from "./components/ImgGit";
+import { UserContext } from "./context/UserContext";
 
 function App() {
   const [user, setUser] = useState([]);
@@ -26,6 +27,7 @@ function App() {
         <Route exact path="/login">
           <Login />
         </Route>
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/images">
           <ImagesList />
         </Route>
@@ -39,9 +41,9 @@ function App() {
         <Route exact path ="/addImages">
           <AddImage />
         </Route>
+        <PrivateRoute exact path="/images" component={ImgGit} />
       </UserContext.Provider>
     </div>
-    
   );
 }
 

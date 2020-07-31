@@ -7,7 +7,7 @@ const initialState = {
 }
 
 const AddImage = () => {
-
+  
     const { user } = useContext( UserContext );
 
     // console.log("Your user: ", user.id);
@@ -16,12 +16,11 @@ const AddImage = () => {
     const [edit, setEdit] = useState(false);
     const [editImg, setEditImg] = useState(initialState);
 
-
     const getImages = () =>{
         axiosWithAuth()
             .get(`/users/${ user.id }/images`)
             .then(res => {
-                console.log("addImages GET: ", res.data);
+                // console.log("addImages GET: ", res.data);
                 setImgs(res.data);
                 setAddingImg(initialState);
             })
@@ -30,6 +29,7 @@ const AddImage = () => {
 
     useEffect(()=>{
         getImages();
+        // setAddingImg({...addingImg, img_url: ""});
     },[]);
 
 
@@ -94,6 +94,29 @@ const AddImage = () => {
                 </label>
                 <button>add</button>
             </form>
+            {imgs.map(pic=>(
+                <div key = {pic.id} onClick ={() => editingImg(pic)}>
+                    <img src={pic.img_url}/>
+                    <span className = "delete" onClick = {e => {
+                         e.stopPropagation(); 
+                         deleteImg(pic) }}
+                    > x </span>
+                </div>
+            ))}
+            {edit && (
+                <form onSubmit = {saveEdit}>
+                    <legend>edit image URL</legend>
+                    <label>
+                        URL: 
+                        <input
+                            onChange = {e => {e.persist(); setEditImg({...editImg, img_url: e.target.value}); console.log(editImg) }}
+                            value = { editImg.img_url }
+                        />   
+                    </label>
+                    <button type="submit">save</button>
+                </form>
+            )}
+            <button onClick = {checkStates}>Check States</button>
 
             {edit && (
                 <form onSubmit = {saveEdit}>
