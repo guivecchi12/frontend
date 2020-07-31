@@ -185,6 +185,7 @@ const Login = ({ setUser }) => {
         const data = res.data;
         // console.log("form submitted success", data);
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userID", data.id);
         //I set setUser here so it can retrieve the user data to the DOM
         setUser(data);
         push("/protected");
@@ -193,26 +194,27 @@ const Login = ({ setUser }) => {
         console.log("This is the Error", err);
       });
   };
-
-  const validateChange = (e) => {
+  
+  const validateChange = e => {
     //this allows react to keep the event object to play nice with async op
     e.persist();
     // reach allows us to check a specific value of the schema
-    Yup.reach(formSchema, e.target.name)
+    Yup
+      .reach(formSchema, e.target.name)
       .validate(e.target.value)
-      .then((valid) =>
+      .then(valid =>
         setErrors({
           ...errors,
-          [e.target.name]: "",
+          [e.target.name]: ""
         })
       )
-      .catch((error) =>
+      .catch(error =>
         setErrors({
           ...errors,
-          [e.target.name]: error.errors[0],
+          [e.target.name]: error.errors[0]
         })
       );
-  };
+  }
 
   // onChange function
   const handleChange = (e) => {
