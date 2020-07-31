@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Header from "./components/Header";
+import ImgGit from "./ImgGit";
+import StoriesList from "./StoriesList";
 
 const HomePage = () => {
   return (
     <>
-      <h1>Created</h1>
-      <Link to="/addImages">Click to see your images</Link>
-      <Link to="/addStory">Click to see your stories</Link>
+      <h1>Our Journal</h1>
+      <StoriesList />
+      <ImgGit />
     </>
   );
 };

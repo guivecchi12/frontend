@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import { UserContext } from "../context/UserContext";
-import japan from "../Img/japan.jpg";
 import styled from "styled-components";
 
 const StoryContainer = styled.div`
