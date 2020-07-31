@@ -4,11 +4,12 @@ import { UserContext } from "../context/UserContext";
 import "./addImage.css";
 
 const initialState = {
-    img_url: ""
+    id: 0,
+    img_url: "",
+    user_id: 0
 }
 
-const AddImage = () => {
-
+const AddImage = ({ user }) => {
     const { user } = useContext( UserContext );
     const [imgs, setImgs] = useState([]);
     const [addingImg, setAddingImg] = useState(initialState);
@@ -22,13 +23,14 @@ const AddImage = () => {
             .then(res => {
                 // console.log("addImages GET: ", res.data);
                 setImgs(res.data);
-                setAddingImg(initialState);
+                setAddingImg({...addingImg, img_url: "", user_id: user.id});
             })
             .catch(err => console.log("addImages GET error", err))
     }
 
     useEffect(()=>{
         getImages();
+        // setAddingImg({...addingImg, img_url: ""});
     },[]);
 
 
@@ -36,12 +38,12 @@ const AddImage = () => {
         e.preventDefault();
         
         axiosWithAuth()
-            .post(`/users/${ id }/images/`, addingImg)
-            .then(res=> {
-                // console.log( "Response from POST adding image: ", res);
-                getImages();
-            })
-            .catch (err => console.log(err));
+          .post(`/users/${ id }/images/`, addingImg)
+          .then(res=> {
+            // console.log( "Response from POST adding image: ", res);
+            getImages();
+          })
+          .catch (err => console.log(err));
     }
 
     const deleteImg = img => {
@@ -127,9 +129,6 @@ const AddImage = () => {
                     </div>
                 ))}
             </div>
-            
-            {/* <button onClick = {checkStates}>Check States</button> */}
-
         </>
     )
 }
