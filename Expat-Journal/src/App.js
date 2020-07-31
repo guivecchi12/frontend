@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Header from './components/Header';
@@ -21,7 +21,7 @@ function App() {
       <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <Route exact path="/login">
-          <Login setUser={setUser} />
+          <Login />
         </Route>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/images">

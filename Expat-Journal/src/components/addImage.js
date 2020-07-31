@@ -76,7 +76,6 @@ const AddImage = () => {
   //     console.log("addingImg: ", addingImg);
   //     console.log("Image editing", editImg);
   // }
-
   return (
     <>
       <h1>Welcome {user.username}</h1>
