@@ -87,25 +87,20 @@ button:hover{
     width: 32%;
     height: 50vh;
     display: flex;
+    justify-content: flex-end;
     margin-left: 1%;
     margin-bottom: 10px;
-}
-
-img{
-    width: 90%;
+    border-radius: 2%;
     cursor: grab;
-    position: relative;
-    text-align: center;
 }
-
 
 .delete{
-    margin: 1%;
-    width: 10%;
-    height: 5vh;
+    
+    width: 4%;
+    height: 3vh;
     border: solid black 1px;
     text-align: center;
-    font-size: x-large;
+    font-size: small;
     font-weight: 700;
     color: white;
     background-color: darkred;

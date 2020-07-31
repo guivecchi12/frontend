@@ -113,8 +113,13 @@ const AddImage = () => {
             </div>
             <div className="userAlbum">
                 {imgs.slice(0).reverse().map(pic=>(
-                    <div key = {pic.id} onClick ={() => editingImg(pic)} className = "userImgs">
-                        <img src={pic.img_url}/>
+                    <div key = {pic.id} onClick ={() => editingImg(pic)} className = "userImgs" 
+                        style={{
+                            backgroundImage:`url(${pic.img_url})`,
+                        
+                        }}
+                    >
+                        {/* <img src={pic.img_url}/> */}
                         <span className = "delete" onClick = {e => {
                             e.stopPropagation(); 
                             deleteImg(pic) }}
