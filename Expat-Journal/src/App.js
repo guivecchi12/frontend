@@ -7,8 +7,6 @@ import Footer from "./components/Footer";
 import HomePage from "./components/HomePage";
 import PrivateRoute from "./utilities/PrivateRoute";
 import "./App.css";
-import ImagesList from "./components/ImagesList";
-import ImagesInfo from "./components/ImagesInfo";
 import { UserContext } from "./context/UserContext";
 import userStories from "./components/userStories";
 import AddImage from "./components/addImage";
@@ -24,23 +22,19 @@ function App() {
     <div className="App">
       <UserContext.Provider value={{ user, addUser }}>
         <Header />
-        <Route exact path="/login">
-          <Login />
-        </Route>
-        <Route exact path="/images">
-          <ImagesList />
-        </Route>
-        <Route path="/images/:id">
-          <ImagesInfo />
-        </Route>
         <Footer />
-        {/* <Route exact path="/" component={Login} /> */}
+        <Route
+          path="/"
+          component={() => {
+            window.location.href = "https://expatjournal2020.netlify.app/";
+            return null;
+          }}
+        />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/protected" component={HomePage} />
         <PrivateRoute exact path="/addStory" component={userStories} />
-        <Route exact path="/addImages">
-          <AddImage />
-        </Route>
+        <PrivateRoute exact path="/addImages" component={AddImage} />
       </UserContext.Provider>
     </div>
   );

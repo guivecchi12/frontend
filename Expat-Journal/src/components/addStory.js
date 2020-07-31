@@ -1,16 +1,10 @@
 import React, { useState, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import { UserContext } from "../context/UserContext";
-import mukuko from "../Img/travel.jpg";
+import japan from "../Img/japan.jpg";
 import styled from "styled-components";
 
 const StoryContainer = styled.div`
-  padding: 40px 0 20px 0;
-  height: 600px;
-  padding-bottom: 200px;
-  background-image: url(${mukuko});
-  background-size: cover;
-
   h1 {
     font-weight: 400;
     font-size: 1.8rem;
@@ -94,10 +88,11 @@ const initialStory = {
   story_title: "",
   story_body: "",
 };
-const AddStory = ({ stories, updateStories, getStories }) => {
+const AddStory = ({ stories, getStories }) => {
   const [editing, setEditing] = useState(false);
   const [story, setStory] = useState(initialStory);
   const { user } = useContext(UserContext);
+  const id = localStorage.getItem("UserID");
   const array = [];
 
   const editStory = (story) => {
@@ -174,7 +169,7 @@ const AddStory = ({ stories, updateStories, getStories }) => {
   return (
     <StoryContainer>
       <form onSubmit={handleFormSubmit}>
-        <legend>{`${editing ? "Change A" : "Contribute A"} Story`}</legend>
+        <legend>{`${editing ? "Change a" : "Contribute a"} Story`}</legend>
         <label>
           Title:
           <input
@@ -202,27 +197,24 @@ const AddStory = ({ stories, updateStories, getStories }) => {
       </form>
       <p>Stories</p>
       <ol>
-        {stories
-          .splice(0)
-          .reverse()
-          .map((story) => (
-            <li key={story.story_id}>
-              <span>
-                <button onClick={() => editStory(story)}>Edit</button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteStory(story);
-                  }}
-                >
-                  Remove
-                </button>
-                {""}
-                <p>Title: {story.story_title}</p>
-                <p>Story: {story.story_body}</p>
-              </span>
-            </li>
-          ))}
+        {[...stories].reverse().map((story) => (
+          <li key={story.story_id}>
+            <span>
+              <button onClick={() => editStory(story)}>Edit</button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteStory(story);
+                }}
+              >
+                Remove
+              </button>
+              {""}
+              <p>Title: {story.story_title}</p>
+              <p>Story: {story.story_body}</p>
+            </span>
+          </li>
+        ))}
       </ol>
       <div className="spacer" />
     </StoryContainer>

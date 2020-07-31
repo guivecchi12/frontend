@@ -2,6 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import axiosWithAuth from "../utilities/axiosWithAuth";
 import AddStory from "../components/addStory";
 import { UserContext } from "../context/UserContext";
+import japan from "../Img/japan.jpg";
+import styled from "styled-components";
+
+const StoryContainer = styled.div`
+  background: linear-gradient(90deg, #061157 0%, #ff922d 100%);
+  height: 100vh;
+  margin-top: -30px;
+  padding-top: 40px;
+`;
 
 const StoriesList = () => {
   const [stories, setStories] = useState([]);
@@ -25,15 +34,11 @@ const StoriesList = () => {
   }, []);
 
   return (
-    <div>
+    <StoryContainer>
       <div className="storiesList">
-        <AddStory
-          stories={stories}
-          updateStories={setStories}
-          getStories={getStories}
-        />
+        <AddStory stories={stories} getStories={getStories} />
       </div>
-    </div>
+    </StoryContainer>
   );
 };
 export default StoriesList;
