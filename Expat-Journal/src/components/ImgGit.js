@@ -1,4 +1,7 @@
 import axiosWithAuth from "../utilities/axiosWithAuth";
+import React, {useState, useEffect} from "react";
+import ImgCard from "./ImgGetCard"
+
 
 // const ImgData = [
 //     {
@@ -30,7 +33,7 @@ import axiosWithAuth from "../utilities/axiosWithAuth";
 //      Comment:"Its time for our team to become World Champions!"
 //     },
 //]
-const ImgsData = props => {
+const ImgGit = props => {
   const [Imgs, setImgs] = useState([]);
 
   useEffect(() => {
@@ -49,3 +52,5 @@ const ImgsData = props => {
   //add an button =(https://ptct-expat-journal-backend.herokuapp.com/users/addImages)
   return Imgs.map((data, i) => <ImgCard data={data} key={i} />);
 };
+
+export default ImgGit
