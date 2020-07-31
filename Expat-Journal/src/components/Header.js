@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const NavContainer = styled.div`
   display: flex;
@@ -98,13 +98,25 @@ const Header = (props) => {
     <NavContainer>
       <h1>Expat Journal</h1>
       <nav>
-        <a className="btn effect01" href="https://expatjournal2020.netlify.app/index.html">
+        <a
+          className="btn effect01"
+          href="https://expatjournal2020.netlify.app/index.html"
+        >
           <span>Home</span>
         </a>
-        <a className="btn effect01" href="https://expatjournal2020.netlify.app/our_team.html">
+        <Link to="/protected" className="btn effect01">
+          Journey
+        </Link>
+        <a
+          className="btn effect01"
+          href="https://expatjournal2020.netlify.app/our_team.html"
+        >
           <span>About</span>
         </a>
-        <a className="btn effect01" href="https://expatjournal2020.netlify.app/contact.html">
+        <a
+          className="btn effect01"
+          href="https://expatjournal2020.netlify.app/contact.html"
+        >
           <span>Contact</span>
         </a>
       </nav>

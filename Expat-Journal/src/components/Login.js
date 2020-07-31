@@ -168,11 +168,7 @@ const Login = () => {
 
   let formSchema = Yup.object().shape({
     username: Yup.string().required("Please provide username."),
-    password: Yup.string()
-      .required("Please enter a correct Password")
-      .matches(
-        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/
-      ),
+    password: Yup.string().required("Please enter a correct Password"),
     terms: Yup.boolean().oneOf(
       [true],
       "Please agree to the terms and conditions"
