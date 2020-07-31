@@ -6,7 +6,7 @@ const FooterContainer = styled.div`
     height: 50px;
     margin: 0 0 -20px 0;
     padding: 15px 0 15px 0;
-    background-color: gray;
+    color: gray;
     
         h1 {
             color: black;

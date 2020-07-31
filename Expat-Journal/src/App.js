@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Route } from "react-router-dom";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import HomePage from "./components/HomePage";
-import PrivateRoute from "./utilities/PrivateRoute";
-import "./App.css";
-import { UserContext } from "./context/UserContext";
-import userStories from "./components/userStories";
-import AddImage from "./components/addImage";
+import React, { useState } from 'react';
+import { Route } from 'react-router-dom';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import HomePage from './components/HomePage';
+import PrivateRoute from './utilities/PrivateRoute';
+import './App.css';
+import { UserContext } from './context/UserContext';
+import userStories from './components/userStories';
+import AddImage from './components/addImage';
 
 function App() {
   const [user, setUser] = useState([]);
@@ -22,7 +22,7 @@ function App() {
         <Route
           path="/"
           component={() => {
-            window.location.href = "https://expatjournal2020.netlify.app/";
+            window.location.href = 'https://expatjournal2020.netlify.app/';
             return null;
           }}
         />
