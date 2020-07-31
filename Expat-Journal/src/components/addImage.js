@@ -4,9 +4,7 @@ import { UserContext } from '../context/UserContext';
 import './addImage.css';
 
 const initialState = {
-  id: 0,
   img_url: '',
-  user_id: 0,
 };
 
 const AddImage = () => {
