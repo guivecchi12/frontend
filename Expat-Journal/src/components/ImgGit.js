@@ -1,7 +1,6 @@
 import axiosWithAuth from "../utilities/axiosWithAuth";
-import React, {useState, useEffect} from "react";
-import ImgCard from "./ImgGetCard"
-
+import React, { useState, useEffect } from "react";
+import ImgCard from "./ImgGetCard";
 
 // const ImgData = [
 //     {
@@ -50,7 +49,14 @@ const ImgGit = props => {
   }, [Imgs]);
 
   //add an button =(https://ptct-expat-journal-backend.herokuapp.com/users/addImages)
-  return Imgs.map((data, i) => <ImgCard data={data} key={i} />);
+  return (
+    <div>
+      <button> Add Image </button>
+      {[...Imgs].reverse().map((data, i) => (
+        <ImgCard data={data} key={i} />
+      ))}
+    </div>
+  );
 };
 
-export default ImgGit
+export default ImgGit;
