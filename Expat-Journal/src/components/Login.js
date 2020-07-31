@@ -209,7 +209,7 @@ const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("UserID", data.id);
         //I set setUser here so it can retrieve the user data to the DOM
-        addUser(data);
+        setUser(data);
         push("/protected");
       })
       .catch((err) => {

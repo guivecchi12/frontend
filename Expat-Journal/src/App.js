@@ -14,13 +14,9 @@ import AddImage from "./components/addImage";
 function App() {
   const [user, setUser] = useState([]);
 
-  const addUser = (userData) => {
-    setUser(userData);
-  };
-
   return (
     <div className="App">
-      <UserContext.Provider value={{ user, addUser }}>
+      <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <Footer />
         <Route
