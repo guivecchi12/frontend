@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <UserContext.Provider>
+      <UserContext.Provider value={{ user, setUser }}>
         <Header />
         <Route exact path="/login">
           <Login setUser={setUser} />
