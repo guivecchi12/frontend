@@ -1,6 +1,6 @@
 import React from "react";
 
-const ImgCard = props => {
+const ImgCard = (props) => {
   return (
     <div>
       <img src={props.data.img_url} alt={props.data.label} />

@@ -2,18 +2,19 @@ import axiosWithAuth from "../utilities/axiosWithAuth";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ImgCard from "./ImgGetCard";
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const ImgContainer = styled.div`
   margin: 20px;
-  width: 500px;
-  margin: 8px 0 0 -2px;
-      border: 2px solid black;
-      border-radius: 6px;
-      padding: 10px 20px;
-      font-size: 1.3rem;
+  width: 45%;
+  border: 2px solid black;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .button {
-    text-align: center;
     padding-bottom: 30px;
     button {
       width: 150px;
@@ -33,6 +34,11 @@ const ImgContainer = styled.div`
   }
 `;
 
+const ImgCon = styled.div`
+  img {
+    max-width: 100%;
+  }
+`;
 
 const ImgGit = (props) => {
   const [Imgs, setImgs] = useState([]);
@@ -58,9 +64,11 @@ const ImgGit = (props) => {
         <button> Add Image </button>
       </div>
       </Link>
-      {[...Imgs].reverse().map((data, i) => (
-        <ImgCard data={data} key={i} />
-      ))}
+      <ImgCon>
+        {[...Imgs].reverse().map((data, i) => (
+          <ImgCard data={data} key={i} />
+        ))}
+      </ImgCon>
     </ImgContainer>
   );
 };

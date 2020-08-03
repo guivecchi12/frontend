@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 const ImgStor = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
 `;
 
