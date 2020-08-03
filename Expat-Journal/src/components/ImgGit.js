@@ -60,7 +60,9 @@ const ImgGit = (props) => {
   return (
     <ImgContainer>
       <Link to="/addImages">
+      <div className="button">
         <button> Add Image </button>
+      </div>
       </Link>
       <ImgCon>
         {[...Imgs].reverse().map((data, i) => (
