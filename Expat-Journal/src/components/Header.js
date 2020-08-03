@@ -8,7 +8,7 @@ const NavContainer = styled.div`
   justify-content: space-between;
   background-color: rgb(13, 0, 70);
   h1 {
-    font-family: ‘Permanent Marker’, cursive;
+    font-family: "Permanent Marker", cursive;
     color: #d4a218;
     text-decoration: none;
     text-transform: uppercase;
@@ -90,6 +90,7 @@ const NavContainer = styled.div`
     left: 120%;
     -webkit-transform: rotate(40deg);
     transform: rotate(40deg);
+  }
   }
 `;
 

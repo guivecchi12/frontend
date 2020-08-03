@@ -6,8 +6,7 @@ import { Link } from "react-router-dom";
 
 const StoriesContainer = styled.div`
   margin: 20px;
-  width: 500px;
-  margin: 8px 0 0 1px;
+  width: 45%;
   border: 2px solid black;
   border-radius: 6px;
   padding: 10px 20px;

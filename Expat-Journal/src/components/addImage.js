@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
-import axiosWithAuth from '../utilities/axiosWithAuth';
-import { UserContext } from '../context/UserContext';
-import './addImage.css';
+import React, { useEffect, useState, useContext } from "react";
+import axiosWithAuth from "../utilities/axiosWithAuth";
+import { UserContext } from "../context/UserContext";
+import "./addImage.css";
 
 const initialState = {
-  img_url: '',
+  img_url: "",
 };
 
 const AddImage = () => {
@@ -13,7 +13,7 @@ const AddImage = () => {
   const [addingImg, setAddingImg] = useState(initialState);
   const [edit, setEdit] = useState(false);
   const [editImg, setEditImg] = useState(initialState);
-  const id = localStorage.getItem('userID');
+  const id = localStorage.getItem("userID");
 
   const getImages = () => {
     axiosWithAuth()
@@ -21,9 +21,9 @@ const AddImage = () => {
       .then((res) => {
         // console.log("addImages GET: ", res.data);
         setImgs(res.data);
-        setAddingImg({ ...addingImg, img_url: '', user_id: user.id });
+        setAddingImg({ ...addingImg, img_url: "", user_id: user.id });
       })
-      .catch((err) => console.log('addImages GET error', err));
+      .catch((err) => console.log("addImages GET error", err));
   };
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const AddImage = () => {
             className="userImgs"
             style={{
               backgroundImage: `url(${pic.img_url})`,
-              backgroundSize: 'auto 100%',
+              backgroundSize: "auto 100%",
             }}
           >
             {/* <img src={pic.img_url}/> */}
@@ -134,8 +134,8 @@ const AddImage = () => {
                 deleteImg(pic);
               }}
             >
-              {' '}
-              x{' '}
+              {" "}
+              x{" "}
             </span>
           </div>
         ))}
